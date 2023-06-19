@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="72" height="76" viewBox="0 0 72 76">
+  <defs>
+    <filter id="Rectangle_104" x="0" y="0" width="72" height="76" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.231"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_84" data-name="Group 84" transform="translate(-282 -269)">
+    <g transform="matrix(1, 0, 0, 1, 282, 269)" filter="url(#Rectangle_104)">
+      <path id="Rectangle_104-2" data-name="Rectangle 104" d="M0,0H54a0,0,0,0,1,0,0V50a8,8,0,0,1-8,8H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(9 9)" fill="#14b844"/>
+    </g>
+    <g id="Group_75" data-name="Group 75" transform="translate(14.951 -31.107)">
+      <g id="Group_74" data-name="Group 74" transform="translate(290.65 323.903)">
+        <path id="WA_Logo" data-name="WA Logo" d="M0,24.909l1.752-6.4a12.348,12.348,0,1,1,10.7,6.182h-.005a12.34,12.34,0,0,1-5.9-1.5Z" fill="#fff"/>
+      </g>
+      <path id="Path_437" data-name="Path 437" d="M807.775,254.829c-.251-.6-.5-.52-.694-.529s-.385-.011-.591-.011a1.133,1.133,0,0,0-.823.386,3.458,3.458,0,0,0-1.08,2.573,6,6,0,0,0,1.26,3.19,13.749,13.749,0,0,0,5.27,4.657,17.752,17.752,0,0,0,1.759.65,4.231,4.231,0,0,0,1.943.122A3.178,3.178,0,0,0,816.9,264.4a2.58,2.58,0,0,0,.18-1.467c-.077-.129-.283-.206-.591-.36s-1.825-.9-2.108-1-.488-.155-.694.154-.8,1-.977,1.209-.36.232-.668.077a8.423,8.423,0,0,1-2.481-1.531,9.287,9.287,0,0,1-1.716-2.137c-.18-.309-.019-.476.135-.629.139-.138.309-.36.463-.54a2.091,2.091,0,0,0,.308-.515.566.566,0,0,0-.026-.54C808.649,256.965,808.032,255.447,807.775,254.829Z" transform="translate(-507.807 76.25)" fill="#14b844" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

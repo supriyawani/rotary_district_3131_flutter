@@ -27,7 +27,8 @@ class MeetingAttendingList_repo {
     var jsonData = json.decode(res);
     print(json.decode(res));
     List<MeetingAttendanceResult?> result;
-    if (jsonData != null) {
+
+    if (jsonData.toString().contains("AttendedBy")) {
       // LoginResult userData = LoginResult.fromJson(json.decode(res));
       final List t = json.decode(res);
 
@@ -40,6 +41,7 @@ class MeetingAttendingList_repo {
     } else {
       result = List.empty();
     }
+
     return result;
     //return responseFromJson(res);
   }

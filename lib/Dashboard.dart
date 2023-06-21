@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rotary_district_3131_flutter/ClubCelebrationList.dart';
 import 'package:rotary_district_3131_flutter/ClubMeeting.dart';
-import 'package:rotary_district_3131_flutter/MeetingReporting.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/widget/ClubBulletin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -197,8 +196,7 @@ class _DashboardState extends State<Dashboard> {
         break;
 
       case 3:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MeetingReporting()));
+        //  Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingReporting()));
         Constant.displayToast("Coming Soon");
         break;
       case 4:
@@ -242,7 +240,7 @@ const List<Choice> choices = const <Choice>[
       icon: "assets/images/Group 22.png",
       color: Constant.color_clubbulletins),
   const Choice(
-      title: 'Project',
+      title: 'Member Search',
       icon: "assets/images/Group 23.png",
       color: Constant.color_membersearch),
   const Choice(

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:rotary_district_3131_flutter/AddMeeting.dart';
 import 'package:rotary_district_3131_flutter/MeetingDetails.dart';
+import 'package:rotary_district_3131_flutter/MeetingReporting.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/model/MeetingListResponse.dart';
 import 'package:rotary_district_3131_flutter/repository/AddComment_repo.dart';
@@ -250,79 +251,146 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                           )
                                         ],
                                       ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1,
-                                        margin: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            /* width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                50),
-                                        alignment: Alignment.center,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              //primary: Color(0xffdd1a27),
-                                              onPrimary: Constant.color_theme,
-                                              backgroundColor: Colors.white
-                                              // foreground
+                                                1,*/
+                                            margin: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    50),
+                                            alignment: Alignment.center,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  //primary: Color(0xffdd1a27),
+                                                  onPrimary:
+                                                      Constant.color_theme,
+                                                  backgroundColor: Colors.white
+                                                  // foreground
+                                                  ),
+                                              onPressed: () {
+                                                MeetingId = snapshot
+                                                    .data[index].meetingId
+                                                    .toString();
+                                                print(
+                                                    "MeetingId:" + MeetingId!);
+
+                                                MeetingDate = dateFormat.format(
+                                                    DateTime.parse(snapshot
+                                                        .data[index]
+                                                        .meetingDate));
+
+                                                topic = snapshot
+                                                    .data[index].topic
+                                                    .toString();
+                                                chiefGuest = snapshot
+                                                    .data[index].chiefGuest
+                                                    .toString();
+                                                PreMeetingNotes = snapshot
+                                                    .data[index].preMeetingNotes
+                                                    .toString();
+                                                String AttendedBy = AccessLevel;
+                                                String TotalComments = snapshot
+                                                    .data[index].totalComment;
+                                                String TotalLikes = snapshot
+                                                    .data[index].totalLike;
+                                                print("MeetingDate:" +
+                                                    MeetingDate!);
+                                                print("topic:" + topic!);
+                                                print("chiefGuest:" +
+                                                    chiefGuest!);
+                                                print("PreMeetingNotes:" +
+                                                    PreMeetingNotes!);
+                                                print("ClubName:" + ClubName!);
+
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MeetingDetails(
+                                                                MeetingId:
+                                                                    MeetingId!,
+                                                                MeetingDate:
+                                                                    MeetingDate!,
+                                                                topic: topic!,
+                                                                chiefGuest:
+                                                                    chiefGuest!,
+                                                                PreMeetingNotes:
+                                                                    PreMeetingNotes!,
+                                                                ClubName:
+                                                                    ClubName!,
+                                                                AttendedBy:
+                                                                    AttendedBy,
+                                                                TotalLikes:
+                                                                    TotalLikes,
+                                                                TotalComments:
+                                                                    TotalComments,
+                                                                ClubId:
+                                                                    ClubId)));
+                                              },
+                                              child: Text("View Details"),
+                                            ),
+                                          ),
+                                          if (AccessLevel == "President" ||
+                                              AccessLevel == "Secretary" ||
+                                              AccessLevel == "IT Office")
+                                            if (DateTime.parse(snapshot
+                                                        .data[index]
+                                                        .meetingDate)
+                                                    .isAfter(DateTime.now()) ||
+                                                snapshot.data[index]
+                                                        .approveStatus ==
+                                                    "Publish")
+                                              Container(
+                                                /* width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1,*/
+                                                margin: EdgeInsets.only(
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            50),
+                                                alignment: Alignment.center,
+                                                child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            //primary: Color(0xffdd1a27),
+                                                            onPrimary: Constant
+                                                                .color_theme,
+                                                            backgroundColor:
+                                                                Colors.white
+                                                            // foreground
+                                                            ),
+                                                    onPressed: () {
+                                                      isLoading = false;
+                                                      MeetingId = snapshot
+                                                          .data[index].meetingId
+                                                          .toString();
+                                                      print("Meeting Id:" +
+                                                          MeetingId!);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  MeetingReporting(
+                                                                    MeetingId:
+                                                                        MeetingId!,
+                                                                  )));
+                                                    },
+                                                    child: Text(
+                                                        "Add/Edit Report")),
                                               ),
-                                          onPressed: () {
-                                            MeetingId = snapshot
-                                                .data[index].meetingId
-                                                .toString();
-                                            print("MeetingId:" + MeetingId!);
-
-                                            MeetingDate = dateFormat.format(
-                                                DateTime.parse(snapshot
-                                                    .data[index].meetingDate));
-
-                                            topic = snapshot.data[index].topic
-                                                .toString();
-                                            chiefGuest = snapshot
-                                                .data[index].chiefGuest
-                                                .toString();
-                                            PreMeetingNotes = snapshot
-                                                .data[index].preMeetingNotes
-                                                .toString();
-                                            String AttendedBy = AccessLevel;
-                                            String TotalComments = snapshot
-                                                .data[index].totalComment;
-                                            String TotalLikes =
-                                                snapshot.data[index].totalLike;
-                                            print(
-                                                "MeetingDate:" + MeetingDate!);
-                                            print("topic:" + topic!);
-                                            print("chiefGuest:" + chiefGuest!);
-                                            print("PreMeetingNotes:" +
-                                                PreMeetingNotes!);
-                                            print("ClubName:" + ClubName!);
-
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MeetingDetails(
-                                                            MeetingId:
-                                                                MeetingId!,
-                                                            MeetingDate:
-                                                                MeetingDate!,
-                                                            topic: topic!,
-                                                            chiefGuest:
-                                                                chiefGuest!,
-                                                            PreMeetingNotes:
-                                                                PreMeetingNotes!,
-                                                            ClubName: ClubName!,
-                                                            AttendedBy:
-                                                                AttendedBy,
-                                                            TotalLikes:
-                                                                TotalLikes,
-                                                            TotalComments:
-                                                                TotalComments,
-                                                            ClubId: ClubId)));
-                                          },
-                                          child: Text("View Details"),
-                                        ),
+                                        ],
                                       ),
                                       if (snapshot
                                               .data[index].memberAttending ==

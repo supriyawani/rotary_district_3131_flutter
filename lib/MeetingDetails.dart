@@ -421,7 +421,7 @@ class _MeetingDetailsState extends State<MeetingDetails> {
                                       ],
                                     )),
                               ])),
-                      Container(
+                      /* Container(
                         margin: margin_for_value,
                         child: Text(
                           "Attending",
@@ -430,7 +430,7 @@ class _MeetingDetailsState extends State<MeetingDetails> {
                               fontSize: MediaQuery.of(context).size.width / 25),
                         ),
                         alignment: Alignment.topLeft,
-                      ),
+                      ),*/
                       Container(
                         child: FutureBuilder<dynamic>(
                             future: MeetingAttendingList_repo()
@@ -447,74 +447,94 @@ class _MeetingDetailsState extends State<MeetingDetails> {
                                   context: context,
                                 );
                               } else if (snapshot!.hasData) {
-                                //print(snapshot.data);
-                                return ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.length!,
-                                    itemBuilder: (context, index) => ListTile(
-                                        title: Card(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            elevation: 1,
-                                            // margin: EdgeInsets.all(20),
-                                            child: Container(
-                                                //height: 100,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    14,
-                                                child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      CircleAvatar(
-                                                          backgroundColor:
-                                                              Constant
-                                                                  .color_theme,
-                                                          radius: 26,
-                                                          child: CircleAvatar(
-                                                              radius: 25.0,
-                                                              backgroundImage:
-                                                                  NetworkImage(Constant
-                                                                          .BASE_PATH +
+                                return Column(children: <Widget>[
+                                  Container(
+                                    margin: margin_for_value,
+                                    child: Text(
+                                      "Attending " +
+                                          snapshot.data.length.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              25),
+                                    ),
+                                    alignment: Alignment.topLeft,
+                                  ),
+                                  ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.length!,
+                                      itemBuilder: (context, index) => ListTile(
+                                          title: Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              elevation: 1,
+                                              // margin: EdgeInsets.all(20),
+                                              child: Container(
+                                                  //height: 100,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      14,
+                                                  child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        CircleAvatar(
+                                                            backgroundColor:
+                                                                Constant
+                                                                    .color_theme,
+                                                            radius: 26,
+                                                            child: CircleAvatar(
+                                                                radius: 25.0,
+                                                                backgroundImage: NetworkImage(Constant
+                                                                        .BASE_PATH +
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .userPhoto),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .black12
+                                                                // Colors.transparent,
+                                                                )),
+                                                        Column(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                child: Text(snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .firstName +
+                                                                    " " +
+                                                                    snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .lastName),
+                                                              ),
+                                                              Container(
+                                                                  child: Text(snapshot
+                                                                          .data[
+                                                                              index]
+                                                                          .mComments +
+                                                                      "(" +
                                                                       snapshot
                                                                           .data[
                                                                               index]
-                                                                          .userPhoto),
-                                                              backgroundColor:
-                                                                  Colors.black12
-                                                              // Colors.transparent,
-                                                              )),
-                                                      Column(children: <Widget>[
-                                                        Container(
-                                                          child: Text(snapshot
-                                                                  .data[index]
-                                                                  .firstName +
-                                                              " " +
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .lastName),
-                                                        ),
-                                                        Container(
-                                                            child: Text(snapshot
-                                                                    .data[index]
-                                                                    .mComments +
-                                                                "(" +
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .attendedBy +
-                                                                ")"))
-                                                      ]),
-                                                    ])))));
+                                                                          .attendedBy +
+                                                                      ")"))
+                                                            ]),
+                                                      ])))))
+                                ]);
                               }
                               return Center(
                                 child: CircularProgressIndicator(),

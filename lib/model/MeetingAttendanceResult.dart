@@ -11,6 +11,7 @@ class MeetingAttendanceResult {
   String? lastName;
   String? userPhoto;
   String? mComments;
+  String? PComments;
   String? attendedBy;
 
   MeetingAttendanceResult(
@@ -18,6 +19,7 @@ class MeetingAttendanceResult {
       this.lastName,
       this.userPhoto,
       this.mComments,
+      this.PComments,
       this.attendedBy});
 
   MeetingAttendanceResult.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class MeetingAttendanceResult {
     lastName = json['LastName'];
     userPhoto = json['User_Photo'];
     mComments = json['MComments'];
+    PComments = json['PComments'];
     attendedBy = json['AttendedBy'];
   }
 
@@ -34,6 +37,7 @@ class MeetingAttendanceResult {
     data['LastName'] = this.lastName;
     data['User_Photo'] = this.userPhoto;
     data['MComments'] = this.mComments;
+    data['PComments'] = this.PComments;
     data['AttendedBy'] = this.attendedBy;
     return data;
   }

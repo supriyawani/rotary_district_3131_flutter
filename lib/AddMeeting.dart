@@ -400,6 +400,7 @@ class _AddMeetingState extends State<AddMeeting> {
                                         setState(() {
                                           isLoading = true;
                                         });
+
                                         //AddMeeting_repo().postdata(dropdownvalue,dropdownvaluefortag,meetingDate,meetingId,).then((result) {
                                         AddMeeting_repo()
                                             .postdata(
@@ -468,20 +469,22 @@ class _AddMeetingState extends State<AddMeeting> {
                                           setState(() {
                                             isLoading = true;
                                           });
+                                          approvestatus = "Publish";
                                           //AddMeeting_repo().postdata(dropdownvalue,dropdownvaluefortag,meetingDate,meetingId,).then((result) {
                                           AddMeeting_repo()
                                               .postdata(
-                                                  meetingId!,
-                                                  meetingDate,
-                                                  dropdownvalue,
-                                                  _chiefGuest!,
-                                                  timeinput.text,
-                                                  dropdownvaluefortag,
-                                                  _topic!,
-                                                  _meetingAgenda!,
-                                                  ClubId,
-                                                  _location!,
-                                                  "Publish")
+                                            meetingId!,
+                                            meetingDate,
+                                            dropdownvalue,
+                                            _chiefGuest!,
+                                            timeinput.text,
+                                            dropdownvaluefortag,
+                                            _topic!,
+                                            _meetingAgenda!,
+                                            ClubId,
+                                            _location!,
+                                            approvestatus,
+                                          )
                                               .then((result) {
                                             if (result != null) {
                                               setState(() {

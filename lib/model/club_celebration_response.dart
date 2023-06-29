@@ -40,25 +40,26 @@ class Jan {
   String userPhoto = "";
   String birthDate = "";
   String charterDate = "";
-  //String WeddingDate = "";
+  String type = "";
+  String WeddingDate = "";
 
-  Jan({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.mobile,
-    required this.userPhoto,
-    required this.birthDate,
-    required this.charterDate,
-    // required this.WeddingDate
-  });
+  Jan(
+      {required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.mobile,
+      required this.userPhoto,
+      required this.birthDate,
+      required this.charterDate,
+      required this.type,
+      required this.WeddingDate});
 
   Jan.fromJson(Map<String, dynamic> json) {
     firstName = json['FirstName'];
     lastName = json['LastName'];
     email = json['Email'];
     mobile = json['Mobile'];
-    // WeddingDate = json['WeddingDate'];
+    //WeddingDate = json['WeddingDate'];
     /*if (json['Mobile'] == null) {
     } else {}*/
     if (json['User_Photo'] == null) {
@@ -66,18 +67,23 @@ class Jan {
     } else {
       userPhoto = json['User_Photo'];
     }
+    charterDate = json['CharterDate'];
     if (json['BirthDate'] == null) {
       birthDate = "";
     } else {
       birthDate = json['BirthDate'];
     }
-    /* if (json['WeddingDate'] == null) {
+    if (json['type'] == null) {
+      type = "";
+    } else {
+      type = json['type'];
+    }
+    //type = json['type'];
+    if (json['WeddingDate'] == null) {
       WeddingDate = "";
     } else {
       WeddingDate = json['WeddingDate'];
-    }*/
-
-    charterDate = json['CharterDate'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -89,7 +95,8 @@ class Jan {
     data['User_Photo'] = this.userPhoto;
     data['BirthDate'] = this.birthDate;
     data['CharterDate'] = this.charterDate;
-    // data['WeddingDate'] = this.WeddingDate;
+    data['type'] = this.type;
+    data['WeddingDate'] = this.WeddingDate;
     return data;
   }
 }

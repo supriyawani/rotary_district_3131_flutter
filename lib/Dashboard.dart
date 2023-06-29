@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rotary_district_3131_flutter/ClubCelebrationList.dart';
 import 'package:rotary_district_3131_flutter/ClubMeeting.dart';
+import 'package:rotary_district_3131_flutter/ClubProject.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/widget/ClubBulletin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
 import 'login.dart';
 
 class Dashboard extends StatefulWidget {
   String UserId;
   String AccessLevel;
-  String Mobile_no, RotaryId, ClubNumber, ClubName, MemberId;
+  String Mobile_no, RotaryId, ClubNumber, ClubName, MemberId, FirstName;
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Dashboard({
@@ -22,10 +24,11 @@ class Dashboard extends StatefulWidget {
     required this.ClubNumber,
     required this.ClubName,
     required this.MemberId,
+    required this.FirstName,
   });
   @override
-  _DashboardState createState() => _DashboardState(
-      UserId, AccessLevel, Mobile_no, RotaryId, ClubNumber, ClubName, MemberId);
+  _DashboardState createState() => _DashboardState(UserId, AccessLevel,
+      Mobile_no, RotaryId, ClubNumber, ClubName, MemberId, FirstName);
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -36,11 +39,19 @@ class _DashboardState extends State<Dashboard> {
   String ClubNumber = "";
   String ClubName = "";
   String MemberId = "";
+  String FirstName = "";
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   var isLoading = false;
-  _DashboardState(String UserId, String AccessLevel, String Mobile_no,
-      String RotaryId, String ClubNumber, String ClubName, String MemberId) {
+  _DashboardState(
+      String UserId,
+      String AccessLevel,
+      String Mobile_no,
+      String RotaryId,
+      String ClubNumber,
+      String ClubName,
+      String MemberId,
+      String FirstName) {
     this.UserId = UserId;
     this.AccessLevel = AccessLevel;
     this.Mobile_no = Mobile_no;
@@ -48,6 +59,7 @@ class _DashboardState extends State<Dashboard> {
     this.ClubNumber = ClubNumber;
     this.ClubName = ClubName;
     this.MemberId = MemberId;
+    this.FirstName = FirstName;
   }
   @override
   void initState() {
@@ -62,6 +74,7 @@ class _DashboardState extends State<Dashboard> {
       ClubNumber = prefs.getString('ClubNumber')!;
       ClubName = prefs.getString('ClubName')!;
       MemberId = prefs.getString('MemberId')!;
+      FirstName = prefs.getString('_Name')!;
     });
     print("UserId: " + UserId);
     print("AccessLevel: " + AccessLevel);
@@ -70,6 +83,7 @@ class _DashboardState extends State<Dashboard> {
     print("ClubNumber: " + ClubNumber);
     print("ClubName: " + ClubName);
     print("MemberId: " + MemberId);
+    print("FirstName: " + FirstName);
   }
 
   @override
@@ -82,12 +96,13 @@ class _DashboardState extends State<Dashboard> {
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
     //GlobalKey<ScaffoldState>() scaffoldKey = GlobalKey<ScaffoldState>();
-    return Scaffold(
-      /* debugShowCheckedModeBanner: false,
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Scaffold(
+        /* debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         home: Scaffold(*/
-      appBar: AppBar(
-          /*automaticallyImplyLeading: false,
+        appBar: AppBar(
+            /*automaticallyImplyLeading: false,
         title: Text("Hi",
             style: TextStyle(
                 color: Constant.color_theme, fontWeight: FontWeight.bold)),
@@ -119,51 +134,53 @@ class _DashboardState extends State<Dashboard> {
             onPressed: () {},
           ),
         ],*/
-          leading: BackButton(
-            color: Constant.color_theme,
-            onPressed: () => Navigator.of(context).pop(),
+            leading: BackButton(
+              color: Constant.color_theme,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            backgroundColor: Colors.white,
+            title: Text(" Hi" + " " + FirstName,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: Constant.color_theme, fontWeight: FontWeight.bold))),
+        drawer: Drawer(
+            child: ListView(children: <Widget>[
+          DrawerHeader(
+            child: SvgPicture.asset("assets/images/Path 274.svg"),
           ),
-          backgroundColor: Colors.white,
-          title: Text(" Hi",
-              style: TextStyle(
-                  color: Constant.color_theme, fontWeight: FontWeight.bold))),
-      drawer: Drawer(
-          child: ListView(children: <Widget>[
-        DrawerHeader(
-          child: SvgPicture.asset("assets/images/Path 274.svg"),
-        ),
-        ListTile(
-          title: Text('FAQ'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            );
-          },
-        ),
-      ])),
-      body: GridView.count(
-          padding: EdgeInsets.all(20),
-          crossAxisCount: 2,
-          crossAxisSpacing: 30.0,
-          mainAxisSpacing: 20.0,
-          children: List.generate(choices.length, (index) {
-            return GestureDetector(
-              child: Center(
-                child: SelectCard(
-                  choice: choices[index],
-                  key: null,
+          ListTile(
+            title: Text('FAQ'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
+          ),
+        ])),
+        body: GridView.count(
+            padding: EdgeInsets.all(10.sp),
+            crossAxisCount: 2,
+            crossAxisSpacing: 20.0.sp,
+            mainAxisSpacing: 20.0.sp,
+            children: List.generate(choices.length, (index) {
+              return GestureDetector(
+                child: Center(
+                  child: SelectCard(
+                    choice: choices[index],
+                    key: null,
+                  ),
                 ),
-              ),
-              onTap: () {
-                int position = index;
-                print(position);
-                getposition(position);
-              },
-            );
-          })),
-    );
+                onTap: () {
+                  int position = index;
+                  print(position);
+                  getposition(position);
+                },
+              );
+            })),
+      );
+    });
   }
 
   void getposition(int position) {
@@ -180,24 +197,35 @@ class _DashboardState extends State<Dashboard> {
                     ClubId: ClubNumber)));
         break;
       case 1:
-        print(position);
         /* Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddMeeting(
-                      ClubId: ClubNumber,
-                    )));*/
+                builder: (context) =>
+                    AddProject(ClubNumber: ClubNumber, ClubName: ClubName)));*/
         Constant.displayToast("Coming Soon");
         break;
+
       case 2:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ClubCelebrationList()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClubCelebrationList(
+                      ClubName: ClubName,
+                    )));
 
         break;
 
       case 3:
         //  Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingReporting()));
-        Constant.displayToast("Coming Soon");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClubProject(
+                    ClubName: ClubName,
+                    AccessLevel: AccessLevel,
+                    MemberId: MemberId,
+                    ClubId: ClubNumber)));
+        //  Constant.displayToast("Coming Soon");
         break;
       case 4:
         Navigator.push(
@@ -244,11 +272,11 @@ const List<Choice> choices = const <Choice>[
       icon: "assets/images/Group 23.png",
       color: Constant.color_membersearch),
   const Choice(
-      title: 'Member Search',
+      title: 'District Commitee',
       icon: "assets/images/Group 24.png",
       color: Constant.color_districtcommitees),
   const Choice(
-      title: 'District Commitee',
+      title: 'Info of leaders',
       icon: "assets/images/Group 25.png",
       color: Constant.color_infoofleaders),
 ];
@@ -259,47 +287,53 @@ class SelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            color: choice.color),
-        child: Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-                padding: EdgeInsets.all(8),
-                /* height: 120,
+    return Sizer(builder: (context, orientation, deviceType) {
+      //final TextStyle textStyle = Theme.of(context).textTheme.display1;
+      return Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+              color: choice.color),
+          child: Center(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(8),
+                  /* height: 120,
                 width: 120,*/
-                child: Material(
-                  shape: CircleBorder(),
-                  child: SizedBox(
-                      width: 90,
-                      height: 90,
-                      child: Image.asset(
-                        choice.icon,
-                      )),
-                )),
-            Container(
-                alignment: Alignment.bottomCenter,
-                transformAlignment: Alignment.center,
-                //margin: EdgeInsets.only(top: 10),
-                margin: EdgeInsets.all(10),
-                child: Text(
-                  choice.title,
-                  style: TextStyle(
-                      color: Constant.color_theme, fontWeight: FontWeight.bold),
-                )),
-          ],
-        )
+                  child: Material(
+                    shape: CircleBorder(),
+                    child: SizedBox(
+                        /* width: 90,
+                        height: 90,*/
+                        width: 60.w,
+                        height: 60.h,
+                        child: Image.asset(
+                          choice.icon,
+                        )),
+                  )),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  transformAlignment: Alignment.center,
+                  //margin: EdgeInsets.only(top: 10),
+                  // margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10.sp),
+                  child: Text(
+                    choice.title,
+                    style: TextStyle(
+                        color: Constant.color_theme,
+                        fontWeight: FontWeight.bold),
+                  )),
+            ],
+          )
 
-            /* child: Icon(choice.icon, size: 50.0, color: Colors.pink)),
+              /* child: Icon(choice.icon, size: 50.0, color: Colors.pink)),
                 Text(choice.title, style: TextStyle(fontSize: 10)),*/
-            ));
+              ));
+    });
   }
 
   void getSAvedData() {

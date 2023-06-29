@@ -17,6 +17,10 @@ class Constant {
   static const Color color_districtcommitees = const Color(0xFFCFF0FF);
   static const Color color_infoofleaders = const Color(0xFFCFFFFA);
 
+  static const Color color_club_project = const Color(0xFFFBCBC8);
+  static const Color color_club_project_theme = const Color(0xFF851717);
+  static const Color color_meeting_button = const Color(0xFFCFE2FF);
+
   static displayToast(message) {
     Fluttertoast.showToast(
         msg: message,

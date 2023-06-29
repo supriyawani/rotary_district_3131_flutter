@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/model/ClubBulletinResult.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClubBulletin extends StatefulWidget {
@@ -37,113 +38,118 @@ class _ClubBulletinState extends State<ClubBulletin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          leading: BackButton(
-            color: Constant.color_theme,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.white,
-          title: Text("Club Bulletin",
-              style: TextStyle(
-                  color: Constant.color_theme, fontWeight: FontWeight.bold))),
-      body: FutureBuilder<dynamic>(
-          future: ClubBulletin_repo().getClubBulletinData(ClubNumber),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              showDialog(
-                builder: (context) => AlertDialog(
-                  title: Text("Error"),
-                  content: Text(snapshot.error.toString()),
-                ),
-                context: context,
-              );
-            } else if (snapshot!.hasData) {
-              //print(snapshot.data);
-              return ListView.builder(
-                  itemCount: snapshot.data.length!,
-                  itemBuilder: (context, index) => ListTile(
-                      title: Card(
-                          elevation: 5,
-                          child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: InkWell(
-                                child: Container(
-                                  child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      //Center Row contents vertically,
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Scaffold(
+        appBar: AppBar(
+            leading: BackButton(
+              color: Constant.color_theme,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            backgroundColor: Colors.white,
+            title: Text("Club Bulletin",
+                style: TextStyle(
+                    color: Constant.color_theme, fontWeight: FontWeight.bold))),
+        body: FutureBuilder<dynamic>(
+            future: ClubBulletin_repo().getClubBulletinData(ClubNumber),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasError) {
+                showDialog(
+                  builder: (context) => AlertDialog(
+                    title: Text("Error"),
+                    content: Text(snapshot.error.toString()),
+                  ),
+                  context: context,
+                );
+              } else if (snapshot!.hasData) {
+                //print(snapshot.data);
+                return ListView.builder(
+                    itemCount: snapshot.data.length!,
+                    itemBuilder: (context, index) => ListTile(
+                        title: Card(
+                            elevation: 3.sp,
+                            child: Padding(
+                                padding: EdgeInsets.all(5.sp),
+                                child: InkWell(
+                                  child: Container(
+                                    child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        //Center Row contents vertically,
 
-                                      children: <Widget>[
-                                        /* Container(
+                                        children: <Widget>[
+                                          /* Container(
                                           child: Text(
                                             snapshot.data[index].id,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),*/
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: SvgPicture.asset(
-                                            "assets/images/Icon metro-file-pdf.svg",
-                                            fit: BoxFit.fill,
-                                            height: 30,
+                                          Container(
+                                            margin: EdgeInsets.all(8.sp),
+                                            child: SvgPicture.asset(
+                                              "assets/images/Icon metro-file-pdf.svg",
+                                              fit: BoxFit.fill,
+                                              height: 4.h,
+                                            ),
+                                            alignment: Alignment.topLeft,
                                           ),
-                                          alignment: Alignment.topLeft,
-                                        ),
-                                        Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            //Center Row contents horizontally,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            //Center Row contents vertically,
+                                          Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              //Center Row contents horizontally,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              //Center Row contents vertically,
 
-                                            children: <Widget>[
-                                              GestureDetector(
-                                                child: Container(
-                                                  margin: EdgeInsets.all(5),
-                                                  child: Text(
-                                                    snapshot.data[index].title,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  width: 60.w,
+                                                  child: Container(
+                                                    // margin: EdgeInsets.all(5),
+                                                    child: Text(
+                                                      snapshot
+                                                          .data[index].title,
+                                                      //overflow: TextOverflow.clip,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    //alignment: Alignment.center,
                                                   ),
-                                                  alignment: Alignment.center,
                                                 ),
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                    snapshot.data[index].date,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
+                                                Container(
+                                                  child: Text(
+                                                      snapshot.data[index].date,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  // alignment: Alignment.center,
+                                                ),
+                                              ]),
+                                          //new Spacer(),
+                                          GestureDetector(
+                                            child: Container(
                                                 alignment: Alignment.center,
-                                              ),
-                                            ]),
-                                        new Spacer(),
-                                        GestureDetector(
-                                          child: Container(
-                                              alignment: Alignment.bottomRight,
-                                              margin: EdgeInsets.all(10),
-                                              child: SvgPicture.asset(
-                                                  "assets/images/download_icon.svg")),
-                                          onTap: () {
-                                            launchURL(
-                                                "https://members.rotary3131.org/member-login/" +
-                                                    snapshot
-                                                        .data[index].document);
-                                          },
-                                        )
-                                      ]),
-                                ),
-                              )))));
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
-    );
+                                                margin: EdgeInsets.all(3.sp),
+                                                child: SvgPicture.asset(
+                                                    "assets/images/download_icon.svg")),
+                                            onTap: () {
+                                              launchURL(
+                                                  "https://members.rotary3131.org/member-login/" +
+                                                      snapshot.data[index]
+                                                          .document);
+                                            },
+                                          )
+                                        ]),
+                                  ),
+                                )))));
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+      );
+    });
   }
 
   launchURL(String url) async {
@@ -181,6 +187,7 @@ class ClubBulletin_repo {
 
       final List<ClubBulletinResult> userList =
           t.map((item) => ClubBulletinResult.fromJson(item)).toList();
+
       print("Length " + userList.length.toString());
 
       result = userList;

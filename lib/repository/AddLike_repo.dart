@@ -33,4 +33,35 @@ class AddLike_repo {
     var res = await response.stream.bytesToString();
     return responseFromJson(res);
   }
+
+  Future<EditProfileResponse?> addlikeforProject(
+    String MemberId,
+    String ClubName,
+    String PLike,
+    String ProjectId,
+    String AttendedBy,
+    String ClubId,
+  ) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+    var request =
+        //  http.Request('GET', Uri.parse(Constant.API_URL + 'iOSEditProfile.php'));
+        http.Request('POST',
+            Uri.parse(Constant.API_URL + 'iOSClubMeetingAddLikeNew.php'));
+    request.headers.addAll(headers);
+    request.bodyFields = {
+      //  'ApproveStatus': ApproveStatus,
+      'MemberId': MemberId,
+      'ClubName': ClubName,
+      'PLike': PLike,
+      'ProjectId': ProjectId,
+      'AttendedBy': AttendedBy,
+      'ClubId': ClubId,
+    };
+
+    print(Constant.API_URL + 'iOSClubMeetingAddLikeNew.php');
+    http.StreamedResponse response = await request.send();
+    var res = await response.stream.bytesToString();
+    return responseFromJson(res);
+  }
 }

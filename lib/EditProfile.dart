@@ -188,7 +188,8 @@ class _EditProfileState extends State<EditProfile> {
               Container(
                 // margin: EdgeInsets.only(left: 10, right: 10),
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width / 30,
+                  top: MediaQuery.of(context).size.width / 20,
+                  right: MediaQuery.of(context).size.width / 30,
                 ),
                 alignment: Alignment.topRight,
                 child: TextButton(
@@ -197,20 +198,21 @@ class _EditProfileState extends State<EditProfile> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Dashboard(
-                                  UserId: user_Id!,
-                                  AccessLevel: accessLevel!,
-                                  Mobile_no: Mobile!,
-                                  RotaryId: RotaryId!,
-                                  ClubNumber: ClubNumber!,
-                                  ClubName: ClubName!,
-                                  MemberId: MemberId!,
-                                )));
+                                UserId: user_Id!,
+                                AccessLevel: accessLevel!,
+                                Mobile_no: Mobile!,
+                                RotaryId: RotaryId!,
+                                ClubNumber: ClubNumber!,
+                                ClubName: ClubName!,
+                                MemberId: MemberId!,
+                                FirstName: Name!)));
                   },
                   child: Text(
                     "SKIP",
                     style: TextStyle(
-                        color: Constant.color_theme,
-                        fontWeight: FontWeight.bold),
+                      color: Constant.color_theme,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -940,24 +942,23 @@ class _EditProfileState extends State<EditProfile> {
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Dashboard(
-                                                                          UserId:
-                                                                              user_Id!,
-                                                                          AccessLevel:
-                                                                              accessLevel!,
-                                                                          Mobile_no:
-                                                                              Mobile!,
-                                                                          RotaryId:
-                                                                              RotaryId!,
-                                                                          ClubNumber:
-                                                                              ClubNumber!,
-                                                                          ClubName:
-                                                                              ClubName!,
-                                                                          MemberId:
-                                                                              MemberId!,
-                                                                        )
+                                                                builder: (context) => Dashboard(
+                                                                    UserId:
+                                                                        user_Id!,
+                                                                    AccessLevel:
+                                                                        accessLevel!,
+                                                                    Mobile_no:
+                                                                        Mobile!,
+                                                                    RotaryId:
+                                                                        RotaryId!,
+                                                                    ClubNumber:
+                                                                        ClubNumber!,
+                                                                    ClubName:
+                                                                        ClubName!,
+                                                                    MemberId:
+                                                                        MemberId!,
+                                                                    FirstName:
+                                                                        _Name!)
                                                                 //Dashboard()
                                                                 ));
                                                       });

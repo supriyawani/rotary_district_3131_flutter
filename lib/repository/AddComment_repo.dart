@@ -29,4 +29,33 @@ class AddComment_repo {
     var res = await response.stream.bytesToString();
     return responseFromJson(res);
   }
+
+  Future<EditProfileResponse?> addCommentforProject(
+      String MemberId,
+      String ClubName,
+      String PComments,
+      String ProjectId,
+      String AttendedBy,
+      String ClubId) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            Constant.API_URL + 'iOSProjectsDistrictNewAddCommentNew.php'));
+    request.headers.addAll(headers);
+    request.bodyFields = {
+      'MemberId': MemberId,
+      'ClubName': ClubName,
+      'PComments': PComments,
+      'ProjectId': ProjectId,
+      'AttendedBy': AttendedBy,
+      'ClubId': ClubId,
+    };
+
+    print(Constant.API_URL + 'iOSProjectsDistrictNewAddCommentNew.php');
+    http.StreamedResponse response = await request.send();
+    var res = await response.stream.bytesToString();
+    return responseFromJson(res);
+  }
 }

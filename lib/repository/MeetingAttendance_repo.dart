@@ -33,4 +33,35 @@ class MeetingAttendance_repo {
     var res = await response.stream.bytesToString();
     return responseFromJson(res);
   }
+
+  Future<EditProfileResponse?> postdataforProject(
+    String MemberId,
+    String ClubName,
+    String PAttending,
+    String ProjectId,
+    String AttendedBy,
+    String ClubId,
+  ) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+    var request =
+        //  http.Request('GET', Uri.parse(Constant.API_URL + 'iOSEditProfile.php'));
+        http.Request('POST',
+            Uri.parse(Constant.API_URL + 'iOSProjectsDistrictNewAddRes.php'));
+    request.headers.addAll(headers);
+    request.bodyFields = {
+      //  'ApproveStatus': ApproveStatus,
+      'MemberId': MemberId,
+      'ClubName': ClubName,
+      'PAttending': PAttending,
+      'ProjectId': ProjectId,
+      'AttendedBy': AttendedBy,
+      'ClubId': ClubId,
+    };
+
+    print(Constant.API_URL + 'iOSProjectsDistrictNewAddRes.php');
+    http.StreamedResponse response = await request.send();
+    var res = await response.stream.bytesToString();
+    return responseFromJson(res);
+  }
 }

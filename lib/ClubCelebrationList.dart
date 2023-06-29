@@ -1,114 +1,214 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/model/club_celebration_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ClubCelebrationList extends StatefulWidget {
-  String clubName = "Pen";
+  String ClubName;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  ClubCelebrationList({
+    required this.ClubName,
+  });
 
   @override
-  _ClubCelebrationListState createState() => _ClubCelebrationListState();
+  _ClubCelebrationListState createState() =>
+      _ClubCelebrationListState(ClubName);
 }
 
 class _ClubCelebrationListState extends State<ClubCelebrationList> {
-  String clubName = "Pen";
+  String ClubName = "";
   var isLoading = false;
 
   String Birthday = "";
   String weddingday = "";
+  String Celebrationtype = "";
+  //String ClubNumber = "";
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  _ClubCelebrationListState(String ClubName) {
+    this.ClubName = ClubName;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // precacheImage(new AssetImage("assets/images/ProfileImage.png"), context);
+    super.initState();
+
+    _prefs.then((SharedPreferences prefs) async {
+      ClubName = prefs.getString('ClubName')!;
+    });
+    print("ClubName: " + ClubName);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          leading: BackButton(
-            color: Constant.color_theme,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.white,
-          title: Text("Club Celebration",
-              style: TextStyle(
-                  color: Constant.color_theme, fontWeight: FontWeight.bold))),
-      body: FutureBuilder<List<ClubCelebrationResponse>>(
-          future: ClubCelebration_repo().getData(clubName),
-          builder: (context, snapshot) {
-            if (snapshot.data != null) {
-              // return listViewWidget(snapshot.data);
-              return Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width / 50),
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      padding: const EdgeInsets.all(2.0),
-                      itemBuilder: (context, position) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.width / 50,
-                                  left: MediaQuery.of(context).size.width / 30,
-                                ),
-                                child:
-                                    Text('${snapshot.data![position]?.month}')),
-                            ListView.builder(
-                                itemCount: snapshot.data![position]?.jan.length,
-                                physics: ClampingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    elevation: 5,
-                                    margin: EdgeInsets.all(20),
-                                    child: Container(
-                                        //height: 100,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                8,
-                                        //margin: EdgeInsets.all(20),
-                                        // margin: EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          // mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            if (snapshot.data![position]
-                                                    .jan[index].userPhoto !=
-                                                null)
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    4,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    14,
-                                                // margin: EdgeInsets.only(left: 15),
-                                                alignment: Alignment.center,
-                                                /*  child: SvgPicture.asset(
-                                              "assets/images/Group 60.svg"),*/
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          Constant.BASE_PATH +
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Scaffold(
+        appBar: AppBar(
+            leading: BackButton(
+              color: Constant.color_theme,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            backgroundColor: Colors.white,
+            title: Text("Club Celebration",
+                style: TextStyle(
+                    color: Constant.color_theme, fontWeight: FontWeight.bold))),
+        body: FutureBuilder<List<ClubCelebrationResponse>>(
+            future: ClubCelebration_repo().getData(ClubName),
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                // return listViewWidget(snapshot.data);
+                return Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width / 50),
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        padding: const EdgeInsets.all(2.0),
+                        itemBuilder: (context, position) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.width / 50,
+                                    left:
+                                        MediaQuery.of(context).size.width / 30,
+                                  ),
+                                  child: Text(
+                                      '${snapshot.data![position]?.month}')),
+                              ListView.builder(
+                                  itemCount:
+                                      snapshot.data![position]?.jan.length,
+                                  physics: ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      width: 50.w,
+                                      child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(2.0),
+                                          ),
+                                          elevation: 5,
+                                          //   margin: EdgeInsets.all(20),
+                                          margin: EdgeInsets.all(15.sp),
+                                          child: Container(
+                                              padding:
+                                                  EdgeInsets.only(left: 5.sp),
+                                              //height: 100,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  8,
+                                              //margin: EdgeInsets.all(20),
+                                              // margin: EdgeInsets.only(left: 20),
+                                              child: Row(
+                                                // mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  if (snapshot
+                                                          .data![position]
+                                                          .jan[index]
+                                                          .userPhoto ==
+                                                      null)
+                                                    Container(
+                                                        margin: EdgeInsets.all(
+                                                            5.sp),
+                                                        child: CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            radius: 35.sp,
+                                                            child: SvgPicture.asset(
+                                                                "assets/images/Group 60.svg")
+                                                            /* AssetImage(
+                                                                  "assets/images/ProfileImage.png"),*/
+                                                            )),
+                                                  if (snapshot
+                                                          .data![position]
+                                                          .jan[index]
+                                                          .userPhoto !=
+                                                      null)
+                                                    Container(
+                                                        /*width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height /
+                                                              14,
+                                                      // margin: EdgeInsets.only(left: 15),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: FadeInImage(
+                                                          image: NetworkImage(Constant
+                                                                  .BASE_PATH +
                                                               snapshot
                                                                   .data![
                                                                       position]!
                                                                   .jan[index]
                                                                   .userPhoto),
-                                                      // fit: BoxFit.cover,
-                                                    )),
-                                              ),
-                                            /* if (snapshot.data![position].jan[index]
+                                                          placeholder: AssetImage(
+                                                              "assets/images/ProfileImage.png")),
+
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+
+                                                        */ /*image:
+                                                              DecorationImage(
+                                                            image: NetworkImage(Constant
+                                                                    .BASE_PATH +
+                                                                snapshot
+                                                                    .data![
+                                                                        position]!
+                                                                    .jan[index]
+                                                                    .userPhoto),
+                                                            // fit: BoxFit.cover,
+                                                          )*/ /*
+                                                      ),*/
+                                                        margin: EdgeInsets.all(
+                                                            5.sp),
+                                                        child: CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          radius: 40.sp,
+                                                          backgroundImage:
+                                                              NetworkImage(Constant
+                                                                      .BASE_PATH +
+                                                                  snapshot
+                                                                      .data![
+                                                                          position]!
+                                                                      .jan[
+                                                                          index]
+                                                                      .userPhoto),
+                                                        )),
+
+                                                  /*if (snapshot
+                                                          .data![position]
+                                                          .jan[index]
+                                                          .userPhoto ==
+                                                      null)*/
+
+                                                  /* if (snapshot.data![position].jan[index]
                                                 .userPhoto ==
                                             "")
                                           Container(
@@ -121,129 +221,191 @@ class _ClubCelebrationListState extends State<ClubCelebrationList> {
                                             ),
                                             // fit: BoxFit.cover,
                                           ),*/
-                                            Container(
-                                              //  margin: EdgeInsets.only(top: 5, left: 5),
-                                              margin: EdgeInsets.only(
-                                                  right: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      10),
-                                              alignment: Alignment.center,
-                                              child: Column(
-                                                //  mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
                                                   Container(
-                                                    child: Text(
-                                                      // snapshot.data[index].toString()
-                                                      '${snapshot.data![position]?.jan[index].firstName}',
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    // margin: EdgeInsets.all(10),
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Icon(Icons.phone),
-                                                        Text(
-                                                            //   snapshot.data[index].toString()
-                                                            '${snapshot.data![position]?.jan[index].mobile}')
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    //margin: EdgeInsets.all(5),
-
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        SvgPicture.asset(
-                                                            "assets/images/Group 45.svg"),
-                                                        Text(
-                                                            '${snapshot.data![position]?.jan[index].birthDate}')
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                    //  margin: EdgeInsets.only(top: 5, left: 5),
+                                                    margin: EdgeInsets.only(
+                                                        right: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width /
-                                                            8,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            16,
-                                                    child: SvgPicture.asset(
-                                                      "assets/images/Phone_icon.svg",
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.center,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 5,
-                                                            color: Color(
-                                                                0xFF147BB8)),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        15)),
-                                                        color:
-                                                            Color(0xFF147BB8)),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                    child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      8,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      16,
-                                                  child: SvgPicture.asset(
-                                                    "assets/images/whats_app_icon.svg",
-                                                    fit: BoxFit.scaleDown,
+                                                            10),
                                                     alignment: Alignment.center,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 5,
-                                                          color: Color(
-                                                              0xFF14b844)),
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          15)),
-                                                      color: Color(0xFF14b844)),
-                                                )),
-                                              ],
-                                            )
-                                          ],
-                                        )),
-                                  );
-                                }),
-                          ],
-                        );
+                                                    child: Column(
+                                                      //  mainAxisSize: MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                            child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          //margin: EdgeInsets.only(top: 8.sp),
+                                                          child: Text(
+                                                            // snapshot.data[index].toString()
+                                                            '${snapshot.data![position]?.jan[index].firstName}',
+                                                          ),
+                                                        )),
+                                                        Expanded(
+                                                            child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          // margin: EdgeInsets.all(10),
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(Icons.phone),
+                                                              Text(
+                                                                  //   snapshot.data[index].toString()
+                                                                  '${snapshot.data![position]?.jan[index].mobile}')
+                                                            ],
+                                                          ),
+                                                        )),
+                                                        if (snapshot
+                                                                .data![position]
+                                                                ?.jan[index]
+                                                                .type ==
+                                                            "BirthDate")
+                                                          Expanded(
+                                                              child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            //margin: EdgeInsets.all(5),
 
-                        /*return Card(
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                SvgPicture.asset(
+                                                                    "assets/images/Group 45.svg"),
+                                                                Text(
+                                                                    '${snapshot.data![position]?.jan[index].birthDate}')
+                                                              ],
+                                                            ),
+                                                          )),
+                                                        if (snapshot
+                                                                .data![position]
+                                                                ?.jan[index]
+                                                                .type ==
+                                                            "WeddingDate")
+                                                          Expanded(
+                                                              child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            //margin: EdgeInsets.all(5),
+
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                SvgPicture.asset(
+                                                                    "assets/images/Group 45.svg"),
+                                                                Text(
+                                                                    '${snapshot.data![position]?.jan[index].WeddingDate}')
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                      child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                        child: Container(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              8,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              16,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "assets/images/Phone_icon.svg",
+                                                            fit: BoxFit
+                                                                .scaleDown,
+                                                            alignment: Alignment
+                                                                .center,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  width: 5,
+                                                                  color: Color(
+                                                                      0xFF147BB8)),
+                                                              borderRadius: BorderRadius.only(
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          2.0)),
+                                                              color: Color(
+                                                                  0xFF147BB8)),
+                                                        ),
+                                                        onTap: () async {
+                                                          !await launch(
+                                                              'sms:+${snapshot.data![position]!.jan[index].mobile.toString()}');
+                                                        },
+                                                      )),
+                                                      Expanded(
+                                                          child:
+                                                              GestureDetector(
+                                                        child: Container(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              8,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              16,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "assets/images/whats_app_icon.svg",
+                                                            fit: BoxFit
+                                                                .scaleDown,
+                                                            alignment: Alignment
+                                                                .center,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  width: 5,
+                                                                  color: Color(
+                                                                      0xFF14b844)),
+                                                              borderRadius: BorderRadius.only(
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          2.0)),
+                                                              color: Color(
+                                                                  0xFF14b844)),
+                                                        ),
+                                                        onTap: () {
+                                                          launchURL(snapshot
+                                                              .data![position]!
+                                                              .jan[index]
+                                                              .mobile
+                                                              .toString());
+                                                        },
+                                                      )),
+                                                    ],
+                                                  ))
+                                                ],
+                                              ))),
+                                    );
+                                  }),
+                            ],
+                          );
+
+                          /*return Card(
                         child: ListTile(
                             title: Text(
                       //'${data?[position].firstName}',
@@ -255,17 +417,17 @@ class _ClubCelebrationListState extends State<ClubCelebrationList> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     )));*/
-                        /* */
-                      }));
-            } else {
-              return Center(child: CircularProgressIndicator());
-              //return Constant.displayToast("avg");
-            }
-          }),
-    );
-  }
+                          /* */
+                        }));
+              } else {
+                return Center(child: CircularProgressIndicator());
+                //return Constant.displayToast("avg");
+              }
+            }),
+      );
+    }
 
-  /* Widget listViewWidget(List<Jan>? data) {
+        /* Widget listViewWidget(List<Jan>? data) {
     return Container(
         child: ListView.builder(
             itemCount: 5,
@@ -284,6 +446,26 @@ class _ClubCelebrationListState extends State<ClubCelebrationList> {
               )));
             }));
   }*/
+        );
+  }
+}
+
+launchURL(String contact) async {
+  //contact = "+7588938235";
+  var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
+  var iosUrl =
+      "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+
+  try {
+    if (Platform.isIOS) {
+      await launchUrl(Uri.parse(iosUrl));
+    } else {
+      await launchUrl(Uri.parse(androidUrl));
+    }
+  } on Exception {
+    //EasyLoading.showError('WhatsApp is not installed.');
+    Constant.displayToast("WhatsApp is not installed.");
+  }
 }
 
 class ClubCelebration_repo {
@@ -293,7 +475,7 @@ class ClubCelebration_repo {
     var request = http.Request(
         'POST', Uri.parse(Constant.API_URL + 'iOSBirthWeddingDayNew.php'));
     request.bodyFields = {
-      'clubName': "Pune Sahyadri",
+      'clubName': clubName,
     };
     request.headers.addAll(headers);
 

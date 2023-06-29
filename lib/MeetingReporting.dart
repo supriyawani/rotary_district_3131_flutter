@@ -927,6 +927,7 @@ class _MeetingReportingState extends State<MeetingReporting> {
         }
         if (imageFile1 == null && image1 == null) {
           path1 = "";
+          print("path1from2:" + path1.toString());
         }
         if (imageFile2 == null && image2 != null) {
           path2 = Constant.BASE_PATH + image2.toString();
@@ -953,10 +954,10 @@ class _MeetingReportingState extends State<MeetingReporting> {
                 _attendance.toString()!,
                 _present.toString(),
                 _visitingRotarian.toString(),
-                path1.toString(),
-                path2.toString(),
-                path3.toString(),
-                path4.toString(),
+                path1!,
+                path2!,
+                path3!,
+                path4!,
                 ReportApproveStatus.toString(),
                 isUpload)
             .then((result) {

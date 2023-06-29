@@ -88,6 +88,25 @@ class MeetingRepoting_repo {
     }*/
     if (isUpload) {
       final uploadList = <http.MultipartFile>[];
+      /* int i;
+      for (i = 1; i <= 4; i++) {
+        if (i == 1)
+          uploadList.add(
+            await http.MultipartFile.fromPath("Image1", Image1),
+          );
+        if (i == 2)
+          uploadList.add(
+            await http.MultipartFile.fromPath("Image2", Image2),
+          );
+        if (i == 3)
+          uploadList.add(
+            await http.MultipartFile.fromPath("Image3", Image3),
+          );
+        if (i == 4)
+          uploadList.add(
+            await http.MultipartFile.fromPath("Image4", Image4),
+          );
+      }*/
       var imageFileList;
       // for (final imageFiles in imageFileList) {
       uploadList.add(

@@ -44,10 +44,10 @@ class _MeetingReportingState extends State<MeetingReporting> {
   File? imageFile2;
   File? imageFile3;
   File? imageFile4;
-  String? path1;
-  String? path2;
-  String? path3;
-  String? path4;
+  String path1="";
+  String path2="";
+  String path3="";
+  String path4="";
   String? ReportApproveStatus;
   String? _report;
   var isUpload = false;
@@ -922,31 +922,31 @@ class _MeetingReportingState extends State<MeetingReporting> {
         setState(() {
           //isLoading = true;
         });
-        if (imageFile1 == null && image1 != null) {
+      /*  if (imageFile1 == null && image1 != null) {
           path1 = Constant.BASE_PATH + image1.toString();
         }
         if (imageFile1 == null && image1 == null) {
-          path1 = "";
+          path1 = " ";
           print("path1from2:" + path1.toString());
         }
         if (imageFile2 == null && image2 != null) {
           path2 = Constant.BASE_PATH + image2.toString();
         }
         if (imageFile2 == null && image2 == null) {
-          path2 = "";
+          path2 = " ";
         }
         if (imageFile3 == null && image3 != null) {
           path3 = Constant.BASE_PATH + image3.toString();
         }
         if (imageFile3 == null && image3 == null) {
-          path3 = "";
+          path3 = " ";
         }
         if (imageFile4 == null && image4 != null) {
           path4 = Constant.BASE_PATH + image4.toString();
         }
         if (imageFile4 == null && image4 == null) {
-          path4 = "";
-        }
+          path4 = " ";
+        }*/
         MeetingRepoting_repo()
             .postdata(
                 MeetingId,
@@ -954,10 +954,10 @@ class _MeetingReportingState extends State<MeetingReporting> {
                 _attendance.toString()!,
                 _present.toString(),
                 _visitingRotarian.toString(),
-                path1!,
-                path2!,
-                path3!,
-                path4!,
+                path1.toString(),
+                path2.toString(),
+                path3.toString(),
+                path4.toString(),
                 ReportApproveStatus.toString(),
                 isUpload)
             .then((result) {

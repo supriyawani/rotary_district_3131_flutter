@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/repository/AddComment_repo.dart';
+import 'package:rotary_district_3131_flutter/repository/AddLike_repo.dart';
 import 'package:rotary_district_3131_flutter/repository/MeetingAttendingList_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class MeetingDetails extends StatefulWidget {
   String MemberId, MeetingId, MeetingDate, topic, chiefGuest, PreMeetingNotes;
-  String ClubName, AttendedBy, TotalLikes, TotalComments, ClubId;
+  String ClubName, AttendedBy, TotalLikes, TotalComments, ClubId, MemberLike;
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -24,6 +25,7 @@ class MeetingDetails extends StatefulWidget {
     required this.TotalLikes,
     required this.TotalComments,
     required this.ClubId,
+    required this.MemberLike,
   });
 
   @override
@@ -38,7 +40,8 @@ class MeetingDetails extends StatefulWidget {
       AttendedBy,
       TotalLikes,
       TotalComments,
-      ClubId);
+      ClubId,
+      MemberLike);
 }
 
 class _MeetingDetailsState extends State<MeetingDetails> {
@@ -51,7 +54,8 @@ class _MeetingDetailsState extends State<MeetingDetails> {
   String? chiefGuest;
   String? PreMeetingNotes;
   String? ClubName;
-  String? AttendedBy, TotalLikes, TotalComments, ClubId;
+  String? AttendedBy, TotalLikes, TotalComments, ClubId, MemberLike;
+  Color _iconColor = Colors.white;
 
   String? _comment;
 
@@ -59,17 +63,19 @@ class _MeetingDetailsState extends State<MeetingDetails> {
 
   //String? MeetingId;
   _MeetingDetailsState(
-      String MemberId,
-      String MeetingId,
-      String MeetingDate,
-      String topic,
-      String chiefGuest,
-      String PreMeetingNotes,
-      String ClubName,
-      String AttendedBy,
-      String TotalLikes,
-      String TotalComments,
-      String ClubId) {
+    String MemberId,
+    String MeetingId,
+    String MeetingDate,
+    String topic,
+    String chiefGuest,
+    String PreMeetingNotes,
+    String ClubName,
+    String AttendedBy,
+    String TotalLikes,
+    String TotalComments,
+    String ClubId,
+    String MemberLike,
+  ) {
     this.MemberId = MemberId;
     this.MeetingId = MeetingId;
     this.MeetingDate = MeetingDate;
@@ -81,6 +87,7 @@ class _MeetingDetailsState extends State<MeetingDetails> {
     this.TotalLikes = TotalLikes;
     this.TotalComments = TotalComments;
     this.ClubId = ClubId;
+    this.MemberLike = MemberLike;
   }
 
   @override
@@ -99,6 +106,7 @@ class _MeetingDetailsState extends State<MeetingDetails> {
       TotalLikes = prefs.getString('TotalLikes')!;
       TotalComments = prefs.getString('TotalComments')!;
       ClubId = prefs.getString('ClubId')!;
+      MemberLike = prefs.getString('MemberLike')!;
     });
     print("MemberId: " + MemberId!);
     print("MeetingId: " + MeetingId!);
@@ -111,6 +119,7 @@ class _MeetingDetailsState extends State<MeetingDetails> {
     print("TotalComments: " + TotalComments!);
     print("TotalLikes: " + TotalLikes!);
     print("ClubId: " + ClubId!);
+    print("MemberLike: " + MemberLike!);
   }
 
   @override
@@ -376,14 +385,35 @@ class _MeetingDetailsState extends State<MeetingDetails> {
                                             endIndent: 6
                                                 .sp, //Spacing at the bottom of divider.
                                           ),
-                                          IconButton(
-                                            icon: SvgPicture.asset(
-                                              "assets/images/Icon awesome-heart.svg",
+                                          if (MemberLike == "0")
+                                            IconButton(
+                                              icon: SvgPicture.asset(
+                                                "assets/images/Icon awesome-heart.svg",
+                                                color: _iconColor,
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  /* MeetingId =
+                                                      snapshot
+                                                          .data[index]
+                                                          .meetingId;
+                                                  AttendedBy =
+                                                      AccessLevel;
+                                                  MLike = "1";*/
+                                                  addlike();
+                                                });
+                                              },
                                             ),
-                                            onPressed: () {
-                                              setState(() {});
-                                            },
-                                          ),
+                                          if (MemberLike == "1")
+                                            IconButton(
+                                              icon: SvgPicture.asset(
+                                                "assets/images/Icon awesome-heart.svg",
+                                                color: Colors.red,
+                                              ),
+                                              onPressed: () {
+                                                setState(() {});
+                                              },
+                                            ),
                                           VerticalDivider(
                                             color: Colors.white,
                                             //color of divider
@@ -890,6 +920,39 @@ class _MeetingDetailsState extends State<MeetingDetails> {
                         )
                       ]))));
     });
+  }
+
+  addlike() async {
+    MemberLike = "1";
+    String con = await Constant().checkConnectivity();
+    if (con != '') {
+      setState(() {
+        isLoading = true;
+      });
+      AddLike_repo()
+          .addlike(MemberId!, ClubName!, MemberLike!, MeetingId!, AttendedBy!,
+              ClubId!)
+          .then((result) {
+        if (result != null) {
+          setState(() {
+            print("msg:" + result.response.toString());
+            Constant.displayToast("" + result.response.toString());
+            if (result.response.toString() == "Success")
+              _iconColor = Colors.red;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+            print("msg:" + result!.response.toString());
+            Constant.displayToast("" + result!.response.toString());
+          });
+        }
+      });
+    }
+    //upload(File(imageFile));
+    else {
+      Constant.displayToast("Please check your internet connection..!");
+    }
   }
 
   showAlertDialog(BuildContext context) {

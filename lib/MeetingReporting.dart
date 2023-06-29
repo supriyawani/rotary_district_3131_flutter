@@ -581,8 +581,8 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                                               pickedFile.path);
                                                           path1 =
                                                               imageFile1!.path;
-                                                          print(
-                                                              "path1" + path1!);
+                                                          print("path1:" +
+                                                              path1!);
                                                         });
                                                       }
                                                     },
@@ -614,7 +614,7 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                                       child: Container(
                                                           child: SvgPicture.asset(
                                                               'assets/images/Icon metro-image.svg'))),
-                                              if (imageFile1 != null)
+                                              if (imageFile2 != null)
                                                 Expanded(
                                                     child: Container(
                                                   height: imgheight,
@@ -772,7 +772,7 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                                       );
                                                       if (pickedFile != null) {
                                                         setState(() {
-                                                          //  isUpload = true;
+                                                          isUpload = true;
                                                           imageFile4 = File(
                                                               pickedFile.path);
                                                           path4 =
@@ -833,7 +833,7 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                           ),
                                         ])*/
                                   ]))),
-                      Container(
+                      /*Container(
                           margin: EdgeInsets.only(top: 5.w),
                           child: ElevatedButtonTheme(
                             data: ElevatedButtonThemeData(
@@ -871,8 +871,46 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                     )),
                               ],
                             ),
+                          )),*/
+                    ])),
+            Container(
+                margin: EdgeInsets.only(top: 2.w, bottom: 5.w),
+                child: ElevatedButtonTheme(
+                  data: ElevatedButtonThemeData(
+                    style: ElevatedButton.styleFrom(
+                        //primary: Color(0xffdd1a27),
+                        alignment: Alignment.center,
+                        onPrimary: Colors.white,
+                        backgroundColor: Constant.color_theme // foreground
+                        ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 40.0.w,
+                          child: ElevatedButton(
+                            child: Text('Save'),
+                            onPressed: () {
+                              ReportApproveStatus = "Draft";
+
+                              saveData();
+                            },
                           )),
-                    ]))
+                      Container(
+                          width: 40.0.w,
+                          child: ElevatedButton(
+                            child: Text('Approve'),
+                            onPressed: () {
+                              ReportApproveStatus = "Publish";
+                              saveData();
+                            },
+                          )),
+                    ],
+                  ),
+                )),
           ]));
     });
   }
@@ -884,8 +922,29 @@ class _MeetingReportingState extends State<MeetingReporting> {
         setState(() {
           //isLoading = true;
         });
-        if (imageFile1 == null) {
-          path1 = Constant.BASE_PATH + image1!;
+        if (imageFile1 == null && image1 != null) {
+          path1 = Constant.BASE_PATH + image1.toString();
+        }
+        if (imageFile1 == null && image1 == null) {
+          path1 = "";
+        }
+        if (imageFile2 == null && image2 != null) {
+          path2 = Constant.BASE_PATH + image2.toString();
+        }
+        if (imageFile2 == null && image2 == null) {
+          path2 = "";
+        }
+        if (imageFile3 == null && image3 != null) {
+          path3 = Constant.BASE_PATH + image3.toString();
+        }
+        if (imageFile3 == null && image3 == null) {
+          path3 = "";
+        }
+        if (imageFile4 == null && image4 != null) {
+          path4 = Constant.BASE_PATH + image4.toString();
+        }
+        if (imageFile4 == null && image4 == null) {
+          path4 = "";
         }
         MeetingRepoting_repo()
             .postdata(

@@ -39,8 +39,10 @@ class _ProjectReportState extends State<ProjectReport> {
       _partnerclub,
       non_roatary_partner;
   File? imageFile1;
-  String? path1;
+  File? imageFile2, imageFile3;
+  String? path1, path2, path3;
   String? Image1;
+  String? Image2, Image3;
   var isUpload = false;
 
   _ProjectReportState(ProjectId) {
@@ -75,6 +77,8 @@ class _ProjectReportState extends State<ProjectReport> {
                 endDate = result.endDate.toString();
                 project_desc = result.description.toString();
                 Image1 = result.image1.toString();
+                Image2 = result.image2.toString();
+                Image3 = result.image2.toString();
                 print("title:" + title.toString());
                 print("President:" + President.toString());
                 print("startDate:" + startDate.toString());
@@ -650,6 +654,150 @@ class _ProjectReportState extends State<ProjectReport> {
                                                                 .path;
                                                             print("path1" +
                                                                 path1!);
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Icon(
+                                                        Icons.upload,
+                                                      ),
+                                                    )))
+                                          ])),
+                                  Container(
+                                      height: 8.h,
+                                      child: Row(
+                                          // mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            if (imageFile2 == null &&
+                                                Image2 != "")
+                                              Expanded(
+                                                  child: Container(
+                                                      height: imgheight,
+                                                      width: imgwidth,
+                                                      child: Image.network(
+                                                          Constant.BASE_PATH +
+                                                              Image2!))),
+                                            if (Image2 == "" || Image2 == null)
+                                              if (imageFile2 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/Icon metro-image.svg'))),
+                                            if (imageFile2 != null)
+                                              Expanded(
+                                                  child: Container(
+                                                height: imgheight,
+                                                width: imgwidth,
+                                                child: Image.file(
+                                                  imageFile2!,
+                                                  width: imgwidth,
+                                                ),
+                                              )),
+                                            Expanded(
+                                                child: Container(
+                                                    child: Text("Image 2"))),
+                                            Expanded(
+                                                child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20.sp),
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () async {
+                                                        // _getFromGallery();
+                                                        PickedFile? pickedFile =
+                                                            await ImagePicker()
+                                                                .getImage(
+                                                          source: ImageSource
+                                                              .gallery,
+                                                        );
+
+                                                        if (pickedFile !=
+                                                            null) {
+                                                          setState(() {
+                                                            isUpload = true;
+                                                            imageFile2 = File(
+                                                                pickedFile
+                                                                    .path);
+                                                            path2 = imageFile2!
+                                                                .path;
+                                                            print("path2" +
+                                                                path2!);
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Icon(
+                                                        Icons.upload,
+                                                      ),
+                                                    )))
+                                          ])),
+                                  Container(
+                                      height: 8.h,
+                                      child: Row(
+                                          // mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            if (imageFile3 == null &&
+                                                Image3 != "")
+                                              Expanded(
+                                                  child: Container(
+                                                      height: imgheight,
+                                                      width: imgwidth,
+                                                      child: Image.network(
+                                                          Constant.BASE_PATH +
+                                                              Image3!))),
+                                            if (Image3 == "" || Image3 == null)
+                                              if (imageFile3 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/Icon metro-image.svg'))),
+                                            if (imageFile3 != null)
+                                              Expanded(
+                                                  child: Container(
+                                                height: imgheight,
+                                                width: imgwidth,
+                                                child: Image.file(
+                                                  imageFile3!,
+                                                  width: imgwidth,
+                                                ),
+                                              )),
+                                            Expanded(
+                                                child: Container(
+                                                    child: Text("Image 3"))),
+                                            Expanded(
+                                                child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 20.sp),
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () async {
+                                                        // _getFromGallery();
+                                                        PickedFile? pickedFile =
+                                                            await ImagePicker()
+                                                                .getImage(
+                                                          source: ImageSource
+                                                              .gallery,
+                                                        );
+
+                                                        if (pickedFile !=
+                                                            null) {
+                                                          setState(() {
+                                                            isUpload = true;
+                                                            imageFile3 = File(
+                                                                pickedFile
+                                                                    .path);
+                                                            path3 = imageFile3!
+                                                                .path;
+                                                            print("path3" +
+                                                                path3!);
                                                           });
                                                         }
                                                       },

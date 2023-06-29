@@ -537,6 +537,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                                           TotalComments:
                                                                           TotalComments,
                                                                           ClubId: ClubId,
+                                                                          MemberLike:MemberLike
                                                                       )));
                                                         },
                                                         child: Text(
@@ -789,17 +790,20 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                     .of(context)
                                                     .size
                                                     .height /
-                                                    15,
+                                                    17,
                                                 padding: margin_for_icon,
+                                              /*  child: Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.center,*/
                                                 child: Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                                  /*crossAxisAlignment:
-                                                  CrossAxisAlignment.center,*/
+                                                  MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    AspectRatio(
+                                                   /* AspectRatio(
                                                         aspectRatio: 2,
-                                                        child: GestureDetector(
+                                                        child:*/ GestureDetector(
                                                             child: Container(
                                                               alignment:
                                                               Alignment.center,
@@ -821,7 +825,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                                   AccessLevel;
                                                               showAlertDialog(
                                                                   context);
-                                                            })),
+                                                            }),//),
                                                     VerticalDivider(
                                                       color: Colors
                                                           .white,
@@ -841,9 +845,9 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                     if (snapshot.data[index]
                                                         .memberLike ==
                                                         "1")
-                                                      AspectRatio(
+                                                    /*  AspectRatio(
                                                           aspectRatio: 1.5,
-                                                          child: Container(
+                                                          child: */Container(
                                                               child: IconButton(
                                                                 icon: SvgPicture
                                                                     .asset(
@@ -865,13 +869,13 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                       }*/
                                                                   });
                                                                 },
-                                                              ))),
+                                                              )),//),
                                                     if (snapshot.data[index]
                                                         .memberLike ==
                                                         "0")
-                                                      AspectRatio(
+                                                    /*  AspectRatio(
                                                           aspectRatio: 1.5,
-                                                          child: Container(
+                                                          child:*/ Container(
                                                               child: IconButton(
                                                                 icon: SvgPicture
                                                                     .asset(
@@ -895,7 +899,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                       }*/
                                                                   });
                                                                 },
-                                                              ))),
+                                                              )),//),
                                                     VerticalDivider(
                                                       color: Colors
                                                           .white,
@@ -912,72 +916,84 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                       endIndent: 6
                                                           .sp, //Spacing at the bottom of divider.
                                                     ),
-                                                    AspectRatio(
-                                                        aspectRatio: 1,
-                                                        child: Container(
-                                                            child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Container(
+                                                    Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                                90),
+                                                        child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.min,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                  child: Container(
                                                                     // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width/90),
-                                                                    child: SvgPicture
-                                                                        .asset(
+                                                                    child: SvgPicture.asset(
                                                                       "assets/images/Icon ionic-ios-thumbs-up.svg",
+                                                                      // height: MediaQuery.of(context).size.height/40,
+                                                                      //width: MediaQuery.of(context).size.width/50,
                                                                     ),
-                                                                  ),
-                                                                  Container(
+                                                                  )),
+                                                              Expanded(
+                                                                  child: Container(
                                                                       child: Text(
                                                                         snapshot
                                                                             .data[index]
-                                                                            .totalLike,
+                                                                            .totalLike.toString(),
                                                                         style: TextStyle(
-                                                                          color:
-                                                                          Colors
-                                                                              .white,
-                                                                          /*fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height /
-                                                                    70*/
-                                                                        ),
-                                                                      ))
-                                                                ]))),
-                                                    AspectRatio(
-                                                        aspectRatio: 1,
-                                                        child: Container(
-                                                            alignment:
-                                                            Alignment.center,
-                                                            child: Column(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: <
-                                                                    Widget>[
-                                                                  Container(
+                                                                            color: Colors.white,
+                                                                            fontSize: MediaQuery.of(
+                                                                                context)
+                                                                                .size
+                                                                                .height /
+                                                                                70),
+                                                                      )))
+                                                            ])),
+                                                    Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                                90),
+                                                        child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.min,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                  child: Container(
                                                                     // margin: EdgeInsets.only(top: MediaQuery.of(context).size.width/90),
-                                                                    child:
-                                                                    SvgPicture
-                                                                        .asset(
+                                                                    child: SvgPicture.asset(
                                                                       "assets/images/comment_icon.svg",
                                                                       // height: MediaQuery.of(context).size.height/40,
                                                                       //width: MediaQuery.of(context).size.width/50,
                                                                     ),
-                                                                  ),
-                                                                  Container(
+                                                                  )),
+                                                              Expanded(
+                                                                  child: Container(
                                                                       child: Text(
                                                                         snapshot
                                                                             .data[index]
-                                                                            .totalComment,
-                                                                        style:
-                                                                        TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                        ),
-                                                                      ))
-                                                                ]))),
+                                                                            .totalComment.toString(),
+                                                                        style: TextStyle(
+                                                                            color: Colors.white,
+                                                                            fontSize: MediaQuery.of(
+                                                                                context)
+                                                                                .size
+                                                                                .height /
+                                                                                70),
+                                                                      )))
+                                                            ])),//),
                                                     /* Container(
                                                 child: SvgPicture.asset(
                                                     "assets/images/comment_icon.svg"),

@@ -596,13 +596,13 @@ class _YourClubProjectState extends State<YourClubProject> {
                                                                           color: Constant
                                                                               .color_club_project_theme)))),
                                                           onPressed: () {
-                                                              isLoading = false;
+                                                            /*  isLoading = false;
                                                         ProjectId = snapshot
                                                             .data[index].id
                                                             .toString();
                                                         print("Project Id:" +
                                                             ProjectId!);
-                                                      /*  Navigator.push(
+                                                        Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder: (context) =>

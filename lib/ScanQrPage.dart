@@ -8,7 +8,7 @@ import 'package:rotary_district_3131_flutter/model/EditProfileResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanQrPage extends StatefulWidget {
-  String MeetingId, ClubId, ClubName, MemberId, AccessLevel;
+  String MeetingId, ClubId, ClubName, MemberId, AccessLevel, PARAM_KEY_TYPE;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   ScanQrPage({
@@ -17,10 +17,11 @@ class ScanQrPage extends StatefulWidget {
     required this.ClubName,
     required this.MemberId,
     required this.AccessLevel,
+    required this.PARAM_KEY_TYPE,
   });
   @override
-  _ScanQrPageState createState() =>
-      _ScanQrPageState(MeetingId, ClubId, ClubName, MemberId, AccessLevel);
+  _ScanQrPageState createState() => _ScanQrPageState(
+      MeetingId, ClubId, ClubName, MemberId, AccessLevel, PARAM_KEY_TYPE);
 }
 
 class _ScanQrPageState extends State<ScanQrPage> {
@@ -30,16 +31,19 @@ class _ScanQrPageState extends State<ScanQrPage> {
       ClubId = "",
       ClubName = "",
       MemberId = "",
-      AccessLevel = "";
+      AccessLevel = "",
+      PARAM_KEY_TYPE = "";
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  _ScanQrPageState(MeetingId, ClubId, ClubName, MemberId, AccessLevel) {
+  _ScanQrPageState(
+      MeetingId, ClubId, ClubName, MemberId, AccessLevel, PARAM_KEY_TYPE) {
     this.MeetingId = MeetingId;
     this.ClubId = ClubId;
     this.ClubName = ClubName;
     this.MemberId = MemberId;
     this.AccessLevel = AccessLevel;
+    this.PARAM_KEY_TYPE = PARAM_KEY_TYPE;
   }
   @override
   void dispose() {
@@ -59,11 +63,13 @@ class _ScanQrPageState extends State<ScanQrPage> {
       ClubId = prefs.getString('ClubNumber')!;
       ClubName = prefs.getString('ClubName')!;
       MemberId = prefs.getString('MemberId')!;
+      PARAM_KEY_TYPE = prefs.getString('PARAM_KEY_TYPE')!;
     });
     print("MeetingId:" + MeetingId);
     print("ClubId:" + ClubId);
     print("ClubName:" + ClubName);
     print("MemberId:" + MemberId);
+    print("PARAM_KEY_TYPE:" + PARAM_KEY_TYPE);
   }
 
   @override
@@ -101,9 +107,48 @@ class _ScanQrPageState extends State<ScanQrPage> {
 
       if (ClubName == clubname &&
           ClubId == ClubNumber &&
-          QrType == "MeetingAndProject") {
+          QrType == "MeetingAndProject" &&
+          PARAM_KEY_TYPE == "Club Meeting") {
         MarkAttendance()
             .postdata(MeetingId, ClubId, ClubName, MemberId, "A", "QrScan")
+            .then((result) {
+          if (result != null) {
+            setState(() {
+              print("msg:" + result.msg.toString());
+              Constant.displayToast("" + result.msg.toString());
+              Navigator.of(context).pop();
+              /* if (AccessLevel != "Spouse") {
+                AccessLevel = "Member";
+              }*/
+              /*Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ClubMeeting(
+                          ClubName: ClubName,
+                          AccessLevel: AccessLevel,
+                          MemberId: MemberId,
+                          ClubId: ClubNumber)));*/
+            });
+          } else {
+            setState(() {
+              //isLoading = false;
+              Constant.displayToast("Invalid QR Code!");
+            });
+          }
+        });
+      }
+      if (ClubName == clubname &&
+          ClubId == ClubNumber &&
+          QrType == "MeetingAndProject" &&
+          PARAM_KEY_TYPE == "Club Project") {
+        MarkAttendanceForPro()
+            .postdata(
+          MeetingId,
+          ClubId,
+          ClubName,
+          MemberId,
+          "A",
+        )
             .then((result) {
           if (result != null) {
             setState(() {
@@ -163,6 +208,36 @@ class MarkAttendance {
     };
 
     print(Constant.API_URL + 'iOSClubMeetingAttendance.php');
+    http.StreamedResponse response = await request.send();
+    var res = await response.stream.bytesToString();
+    return responseFromJson(res);
+  }
+}
+
+class MarkAttendanceForPro {
+  Future<EditProfileResponse?> postdata(
+    String MeetingId,
+    String ClubId,
+    String ClubName,
+    String MemberId,
+    String RegType,
+  ) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+    var request =
+        //  http.Request('GET', Uri.parse(Constant.API_URL + 'iOSEditProfile.php'));
+        http.Request('POST',
+            Uri.parse(Constant.API_URL + 'iOSClubProjectAttendance.php'));
+    request.headers.addAll(headers);
+    request.bodyFields = {
+      'ProjectId': MeetingId,
+      'ClubId': ClubId,
+      'ClubName': ClubName,
+      'MemberId': MemberId,
+      'RegType': RegType,
+    };
+
+    print(Constant.API_URL + 'iOSClubProjectAttendance.php');
     http.StreamedResponse response = await request.send();
     var res = await response.stream.bytesToString();
     return responseFromJson(res);

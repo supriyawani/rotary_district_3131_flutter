@@ -322,8 +322,22 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                         ))
                                                   ],
                                                 )),
-                                            if( snapshot.data[index]
-                                                .report != null)
+                                           /* if(snapshot.data[index]
+                                                .approveStatus ==
+                                                "Draft" && AccessLevel=="President")
+                                              Container(
+                                                  margin: EdgeInsets.only(bottom: 2.w),
+                                            child:TextButton(onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddMeeting(
+                                                              ClubId: ClubId, AccessLevel: AccessLevel)));
+                                            }, child: Text("Approve",style: TextStyle(color: Colors.blue),),)),*/
+
+                                            /*if( snapshot.data[index]
+                                                .report != null)*/
                                              /* Container(
                                                 // alignment: Alignment.center,
                                                 margin: EdgeInsets.only(
@@ -403,6 +417,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                         .toString();
                                                     print("MeetingId:" +
                                                         MeetingId!);
+                                                    String PARAM_KEY_TYPE="Club Meeting";
 
                                                     Navigator.push(
                                                         context,
@@ -417,7 +432,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                                 ClubName:
                                                                 ClubName,
                                                                 MemberId:
-                                                                MemberId,AccessLevel:AccessLevel)));
+                                                                MemberId,AccessLevel:AccessLevel,PARAM_KEY_TYPE:PARAM_KEY_TYPE)));
                                                   },
                                                 ),
                                               ),

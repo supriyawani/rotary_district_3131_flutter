@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:rotary_district_3131_flutter/ProjectReport.dart';
 import 'package:rotary_district_3131_flutter/ProjectViewDetails.dart';
+import 'package:rotary_district_3131_flutter/ScanQrPage.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/repository/AddComment_repo.dart';
 import 'package:rotary_district_3131_flutter/repository/AddLike_repo.dart';
@@ -275,22 +276,23 @@ class _YourClubProjectState extends State<YourClubProject> {
                                             ),
                                             child: Text("Mark Attendance"),
                                             onPressed: () {
-                                              ProjectId =
+                                            String  MeetingId =
                                                   snapshot.data[index].id
                                                       .toString();
                                               print("ProjectId:" + ProjectId!);
+                                              String PARAM_KEY_TYPE="Club Project";
 
-                                              /* Navigator.push(
+                                               Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       // ScanQrPage()
                                                       ScanQrPage(
-                                                          ProjectId: ProjectId!,
+                                                           MeetingId: MeetingId!,
                                                           ClubId: ClubId,
                                                           ClubName: ClubName,
-                                                          MemberId: MemberId)
-                                              ));*/
+                                                          MemberId: MemberId,AccessLevel:AccessLevel,PARAM_KEY_TYPE:PARAM_KEY_TYPE)
+                                              ));
                                             },
                                           ),
                                         ),

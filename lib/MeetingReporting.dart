@@ -44,10 +44,10 @@ class _MeetingReportingState extends State<MeetingReporting> {
   File? imageFile2;
   File? imageFile3;
   File? imageFile4;
-  String path1="";
-  String path2="";
-  String path3="";
-  String path4="";
+  String path1 = "";
+  String path2 = "";
+  String path3 = "";
+  String path4 = "";
   String? ReportApproveStatus;
   String? _report;
   var isUpload = false;
@@ -80,10 +80,10 @@ class _MeetingReportingState extends State<MeetingReporting> {
           _attendance = result.clubMembersPresent.toString();
           _present = result.annetPresent.toString();
           _visitingRotarian = result.visitingRotarians.toString();
-          image1 = result.image1.toString();
-          image2 = result.image2.toString();
-          image3 = result.image3.toString();
-          image4 = result.image4.toString();
+          image1 = result.image1;
+          image2 = result.image2;
+          image3 = result.image3;
+          image4 = result.image4;
           print("MeetingNo:" + meetingNo.toString());
           isLoading = false;
         });
@@ -96,7 +96,7 @@ class _MeetingReportingState extends State<MeetingReporting> {
   }
 
   void _loadmemberinfo() {
-    ClubMemberInfo_repo().getPresident(clubName).then((result) {
+    ClubMemberInfo_repo().getPresident("Akurdi Pune").then((result) {
       if (result != null) {
         setState(() {
           //  president = result[0]!.firstName.toString();
@@ -531,15 +531,16 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                               imageFile1!,
                                             ),
                                           )),*/
-                                              if (image1 != "" &&
-                                                  imageFile1 == null)
-                                                Expanded(
-                                                    child: Container(
-                                                        height: imgheight,
-                                                        width: imgwidth,
-                                                        child: Image.network(
-                                                            Constant.BASE_PATH +
-                                                                image1!))),
+                                              if (image1 != null &&
+                                                  image1 != "")
+                                                if (imageFile1 == null)
+                                                  Expanded(
+                                                      child: Container(
+                                                          height: imgheight,
+                                                          width: imgwidth,
+                                                          child: Image.network(
+                                                              Constant.BASE_PATH +
+                                                                  image1!))),
                                               if (image1 == "" ||
                                                   image1 == null)
                                                 if (imageFile1 == null)
@@ -598,15 +599,16 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              if (image2 != "" &&
-                                                  imageFile2 == null)
-                                                Expanded(
-                                                    child: Container(
-                                                        height: imgheight,
-                                                        width: imgwidth,
-                                                        child: Image.network(
-                                                            Constant.BASE_PATH +
-                                                                image2!))),
+                                              if (image2 != null &&
+                                                  image2 != "")
+                                                if (imageFile2 == null)
+                                                  Expanded(
+                                                      child: Container(
+                                                          height: imgheight,
+                                                          width: imgwidth,
+                                                          child: Image.network(
+                                                              Constant.BASE_PATH +
+                                                                  image2!))),
                                               if (image2 == "" ||
                                                   image2 == null)
                                                 if (imageFile2 == null)
@@ -663,15 +665,16 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              if (image3 != "" &&
-                                                  imageFile3 == null)
-                                                Expanded(
-                                                    child: Container(
-                                                        height: imgheight,
-                                                        width: imgwidth,
-                                                        child: Image.network(
-                                                            Constant.BASE_PATH +
-                                                                image3!))),
+                                              if (image3 != null &&
+                                                  image3 != "")
+                                                if (imageFile3 == null)
+                                                  Expanded(
+                                                      child: Container(
+                                                          height: imgheight,
+                                                          width: imgwidth,
+                                                          child: Image.network(
+                                                              Constant.BASE_PATH +
+                                                                  image3!))),
                                               if (image3 == "" ||
                                                   image3 == null)
                                                 if (imageFile3 == null)
@@ -729,15 +732,16 @@ class _MeetingReportingState extends State<MeetingReporting> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              if (image4 != "" &&
-                                                  imageFile4 == null)
-                                                Expanded(
-                                                    child: Container(
-                                                        height: imgheight,
-                                                        width: imgwidth,
-                                                        child: Image.network(
-                                                            Constant.BASE_PATH +
-                                                                image4!))),
+                                              if (image4 != null &&
+                                                  image4 != "")
+                                                if (imageFile4 == null)
+                                                  Expanded(
+                                                      child: Container(
+                                                          height: imgheight,
+                                                          width: imgwidth,
+                                                          child: Image.network(
+                                                              Constant.BASE_PATH +
+                                                                  image4!))),
                                               if (image4 == "" ||
                                                   image4 == null)
                                                 if (imageFile4 == null)
@@ -922,29 +926,29 @@ class _MeetingReportingState extends State<MeetingReporting> {
         setState(() {
           //isLoading = true;
         });
-      /*  if (imageFile1 == null && image1 != null) {
-          path1 = Constant.BASE_PATH + image1.toString();
+        if (imageFile1 == null && image1 != null) {
+          path1 = /*Constant.BASE_PATH +*/ image1.toString();
         }
-        if (imageFile1 == null && image1 == null) {
+        /*if (imageFile1 == null && image1 == null) {
           path1 = " ";
           print("path1from2:" + path1.toString());
-        }
+        }*/
         if (imageFile2 == null && image2 != null) {
-          path2 = Constant.BASE_PATH + image2.toString();
+          path2 = /*Constant.BASE_PATH +*/ image2.toString();
         }
-        if (imageFile2 == null && image2 == null) {
+        /*if (imageFile2 == null && image2 == null) {
           path2 = " ";
-        }
+        }*/
         if (imageFile3 == null && image3 != null) {
-          path3 = Constant.BASE_PATH + image3.toString();
+          path3 = /*Constant.BASE_PATH +*/ image3.toString();
         }
-        if (imageFile3 == null && image3 == null) {
+        /* if (imageFile3 == null && image3 == null) {
           path3 = " ";
-        }
+        }*/
         if (imageFile4 == null && image4 != null) {
-          path4 = Constant.BASE_PATH + image4.toString();
+          path4 = /*Constant.BASE_PATH +*/ image4.toString();
         }
-        if (imageFile4 == null && image4 == null) {
+        /* if (imageFile4 == null && image4 == null) {
           path4 = " ";
         }*/
         MeetingRepoting_repo()

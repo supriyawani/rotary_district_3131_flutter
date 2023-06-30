@@ -238,6 +238,7 @@ class _ClubMeetingState extends State<ClubMeeting> {
                                                 ),
                                               ),
                                             Container(
+                                                margin: EdgeInsets.only(top: 5.w,),
                                                 child: Row(
                                                   crossAxisAlignment: CrossAxisAlignment
                                                       .start,

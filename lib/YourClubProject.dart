@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:rotary_district_3131_flutter/ProjectReport.dart';
 import 'package:rotary_district_3131_flutter/ProjectViewDetails.dart';
 import 'package:rotary_district_3131_flutter/common/Constant.dart';
 import 'package:rotary_district_3131_flutter/repository/AddComment_repo.dart';
@@ -596,7 +597,7 @@ class _YourClubProjectState extends State<YourClubProject> {
                                                                           color: Constant
                                                                               .color_club_project_theme)))),
                                                           onPressed: () {
-                                                            /*  isLoading = false;
+                                                              isLoading = false;
                                                         ProjectId = snapshot
                                                             .data[index].id
                                                             .toString();
@@ -609,7 +610,7 @@ class _YourClubProjectState extends State<YourClubProject> {
                                                                     ProjectReport(
                                                                       ProjectId:
                                                                       ProjectId!,
-                                                                    )));*/
+                                                                    )));
                                                           },
                                                           child:
                                                           Text(

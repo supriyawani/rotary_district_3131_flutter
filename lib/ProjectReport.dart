@@ -32,17 +32,26 @@ class _ProjectReportState extends State<ProjectReport> {
 
   var isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  String? _rupee,
-      _amount,
+  String? _rupee = "",
+      _amount = "",
       _workinghrs,
       _beneficiary,
       _partnerclub,
-      non_roatary_partner;
+      non_roatary_partner,
+      param1ClubMembersPresent,
+      param1AnnetPresent,
+      param1VisitingRotarians;
   File? imageFile1;
-  File? imageFile2, imageFile3;
-  String? path1, path2, path3;
-  String? Image1;
-  String? Image2, Image3;
+  File? imageFile2, imageFile3, imageFile4;
+  String path1 = "";
+  String path2 = "";
+  String path3 = "";
+  String path4 = "";
+  String? image1;
+  String? image2, image4;
+  String? image3;
+  String? ReportApproveStatus = "Draft";
+
   var isUpload = false;
 
   _ProjectReportState(ProjectId) {
@@ -76,9 +85,19 @@ class _ProjectReportState extends State<ProjectReport> {
                 startDate = result.startDate.toString();
                 endDate = result.endDate.toString();
                 project_desc = result.description.toString();
-                Image1 = result.image1.toString();
-                Image2 = result.image2.toString();
-                Image3 = result.image2.toString();
+                _rupee = result.currency.toString();
+                _amount = result.amount.toString();
+                _workinghrs = result.rotaryVolunteerHours.toString();
+                _beneficiary = result.noBeneficiaries.toString();
+                _partnerclub = result.partnerClubs.toString();
+                non_roatary_partner = result.nonRotaryPartner.toString();
+                param1ClubMembersPresent = result.clubMembersPresent.toString();
+                param1AnnetPresent = result.annetPresent.toString();
+                param1VisitingRotarians = result.visitingRotarians.toString();
+                image1 = result.image1;
+                image2 = result.image2;
+                image3 = result.image3;
+                image4 = result.image4;
                 print("title:" + title.toString());
                 print("President:" + President.toString());
                 print("startDate:" + startDate.toString());
@@ -334,7 +353,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     height: height,
                                     child: TextFormField(
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + _rupee!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -375,7 +394,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     height: height,
                                     child: TextFormField(
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + _amount!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -421,7 +440,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     height: height,
                                     child: TextFormField(
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + _workinghrs!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -463,7 +482,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     height: height,
                                     child: TextFormField(
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + _beneficiary!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -477,7 +496,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                           contentPadding: content_padding),
                                       onSaved: (value) {
                                         _beneficiary = value!.trim();
-                                        print("Working hours:" + _beneficiary!);
+                                        print("Beneficiary:" + _beneficiary!);
                                       },
                                       validator: (value) {
                                         if (value!.trim().isEmpty) {
@@ -494,7 +513,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     margin: EdgeInsets.only(bottom: 4.sp),
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Project Organiztion",
+                                      "Partner Organiztion",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     decoration: BoxDecoration(
@@ -518,7 +537,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                     height: height,
                                     child: TextFormField(
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + _partnerclub!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -562,7 +581,7 @@ class _ProjectReportState extends State<ProjectReport> {
                                       //expands: true,
                                       maxLines: null,
                                       // initialValue: "Minutes of Meeting",
-                                      // initialValue: "" + _rupee!,
+                                      initialValue: "" + non_roatary_partner!,
                                       style: TextStyle(
                                         //fontSize: 15,
                                         color:
@@ -591,6 +610,168 @@ class _ProjectReportState extends State<ProjectReport> {
                                     ),
                                   ),
                                   Container(
+                                    height: 5.h,
+                                    width: 500.w,
+                                    margin: EdgeInsets.only(bottom: 4.sp),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Club Member Present",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Constant.color_club_project_theme,
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
+                                  Container(
+                                      margin: margin_for_bottom,
+                                      child: Text(
+                                        "Non QR members+Markup Attendance(Enter obly Numbers)",
+                                        style: TextStyle(
+                                            color: Constant
+                                                .color_club_project_theme,
+                                            // fontSize: 12,
+                                            // fontSize: 12 * MediaQuery.textScaleFactorOf(context),
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                    margin: margin_for_textform,
+                                    //  height: height,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      //expands: true,
+                                      maxLines: null,
+                                      // initialValue: "Minutes of Meeting",
+                                      initialValue:
+                                          "" + param1ClubMembersPresent!,
+                                      style: TextStyle(
+                                        //fontSize: 15,
+                                        color:
+                                            Constant.color_club_project_theme,
+                                      ),
+                                      key: Key("param1ClubMembersPresent"),
+                                      // keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+
+                                          // labelText: "" + _minMeeting!,
+                                          contentPadding: content_padding),
+                                      onSaved: (value) {
+                                        param1ClubMembersPresent =
+                                            value!.trim();
+                                        print("param1ClubMembersPresent:" +
+                                            param1ClubMembersPresent!);
+                                      },
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'this field is required';
+                                        }
+                                        _formKey.currentState!.save();
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: margin_for_bottom,
+                                      child: Text(
+                                        "Annet Present",
+                                        style: TextStyle(
+                                            color: Constant
+                                                .color_club_project_theme,
+                                            // fontSize: 12,
+                                            // fontSize: 12 * MediaQuery.textScaleFactorOf(context),
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                    margin: margin_for_textform,
+                                    //  height: height,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      //expands: true,
+                                      maxLines: null,
+                                      // initialValue: "Minutes of Meeting",
+                                      initialValue: "" + param1AnnetPresent!,
+                                      style: TextStyle(
+                                        //fontSize: 15,
+                                        color:
+                                            Constant.color_club_project_theme,
+                                      ),
+                                      key: Key("param1AnnetPresent"),
+                                      // keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+
+                                          // labelText: "" + _minMeeting!,
+                                          contentPadding: content_padding),
+                                      onSaved: (value) {
+                                        param1AnnetPresent = value!.trim();
+                                        print("param1AnnetPresent:" +
+                                            param1AnnetPresent!);
+                                      },
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'this field is required';
+                                        }
+                                        _formKey.currentState!.save();
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: margin_for_bottom,
+                                      child: Text(
+                                        "Visiting Rotarians",
+                                        style: TextStyle(
+                                            color: Constant
+                                                .color_club_project_theme,
+                                            // fontSize: 12,
+                                            // fontSize: 12 * MediaQuery.textScaleFactorOf(context),
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                    margin: margin_for_textform,
+                                    //  height: height,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      //expands: true,
+                                      maxLines: null,
+                                      // initialValue: "Minutes of Meeting",
+                                      initialValue:
+                                          "" + param1VisitingRotarians!,
+                                      style: TextStyle(
+                                        //fontSize: 15,
+                                        color:
+                                            Constant.color_club_project_theme,
+                                      ),
+                                      key: Key("param1VisitingRotarians"),
+                                      // keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+
+                                          // labelText: "" + _minMeeting!,
+                                          contentPadding: content_padding),
+                                      onSaved: (value) {
+                                        param1VisitingRotarians = value!.trim();
+                                        print("param1VisitingRotarians:" +
+                                            param1VisitingRotarians!);
+                                      },
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'this field is required';
+                                        }
+                                        _formKey.currentState!.save();
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                      child: Text(
+                                    "Size should be less than 1MB for each photo",
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                                  // Column(children:[
+                                  Container(
+                                      margin: EdgeInsets.only(top: 5.sp),
                                       height: 8.h,
                                       child: Row(
                                           // mainAxisSize: MainAxisSize.min,
@@ -599,16 +780,17 @@ class _ProjectReportState extends State<ProjectReport> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            if (Image1 != "" &&
-                                                imageFile1 == null)
-                                              Expanded(
-                                                  child: Container(
-                                                      height: imgheight,
-                                                      width: imgwidth,
-                                                      child: Image.network(
-                                                          Constant.BASE_PATH +
-                                                              Image1!))),
-                                            if (Image1 == "" || Image1 == null)
+                                            if (image1 != null && image1 != "")
+                                              if (imageFile1 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        height: imgheight,
+                                                        width: imgwidth,
+                                                        child: Image.network(
+                                                            Constant.BASE_PATH +
+                                                                image1
+                                                                    .toString()))),
+                                            if (image1 == "" || image1 == null)
                                               if (imageFile1 == null)
                                                 Expanded(
                                                     child: Container(
@@ -622,47 +804,42 @@ class _ProjectReportState extends State<ProjectReport> {
                                                 child: Image.file(
                                                   imageFile1!,
                                                   width: imgwidth,
+                                                  height: 8.h,
                                                 ),
                                               )),
                                             Expanded(
                                                 child: Container(
                                                     child: Text("Image 1"))),
-                                            Expanded(
-                                                child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 20.sp),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        // _getFromGallery();
-                                                        PickedFile? pickedFile =
-                                                            await ImagePicker()
-                                                                .getImage(
-                                                          source: ImageSource
-                                                              .gallery,
-                                                        );
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 20.sp),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    // _getFromGallery();
+                                                    PickedFile? pickedFile =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                      source:
+                                                          ImageSource.gallery,
+                                                    );
 
-                                                        if (pickedFile !=
-                                                            null) {
-                                                          setState(() {
-                                                            isUpload = true;
-                                                            imageFile1 = File(
-                                                                pickedFile
-                                                                    .path);
-                                                            path1 = imageFile1!
-                                                                .path;
-                                                            print("path1" +
-                                                                path1!);
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Icon(
-                                                        Icons.upload,
-                                                      ),
-                                                    )))
+                                                    if (pickedFile != null) {
+                                                      setState(() {
+                                                        isUpload = true;
+                                                        imageFile1 = File(
+                                                            pickedFile.path);
+                                                        path1 =
+                                                            imageFile1!.path;
+                                                        print(
+                                                            "path1:" + path1!);
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Icon(Icons.upload),
+                                                ))
                                           ])),
                                   Container(
+                                      margin: EdgeInsets.only(top: 5.sp),
                                       height: 8.h,
                                       child: Row(
                                           // mainAxisSize: MainAxisSize.min,
@@ -671,16 +848,17 @@ class _ProjectReportState extends State<ProjectReport> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            if (imageFile2 == null &&
-                                                Image2 != "")
-                                              Expanded(
-                                                  child: Container(
-                                                      height: imgheight,
-                                                      width: imgwidth,
-                                                      child: Image.network(
-                                                          Constant.BASE_PATH +
-                                                              Image2!))),
-                                            if (Image2 == "" || Image2 == null)
+                                            if (image2 != null && image2 != "")
+                                              if (imageFile2 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        height: imgheight,
+                                                        width: imgwidth,
+                                                        child: Image.network(
+                                                            Constant.BASE_PATH +
+                                                                image2
+                                                                    .toString()))),
+                                            if (image2 == "" || image2 == null)
                                               if (imageFile2 == null)
                                                 Expanded(
                                                     child: Container(
@@ -694,47 +872,42 @@ class _ProjectReportState extends State<ProjectReport> {
                                                 child: Image.file(
                                                   imageFile2!,
                                                   width: imgwidth,
+                                                  height: 8.h,
                                                 ),
                                               )),
                                             Expanded(
                                                 child: Container(
                                                     child: Text("Image 2"))),
-                                            Expanded(
-                                                child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 20.sp),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        // _getFromGallery();
-                                                        PickedFile? pickedFile =
-                                                            await ImagePicker()
-                                                                .getImage(
-                                                          source: ImageSource
-                                                              .gallery,
-                                                        );
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 20.sp),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    // _getFromGallery();
+                                                    PickedFile? pickedFile =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                      source:
+                                                          ImageSource.gallery,
+                                                    );
 
-                                                        if (pickedFile !=
-                                                            null) {
-                                                          setState(() {
-                                                            isUpload = true;
-                                                            imageFile2 = File(
-                                                                pickedFile
-                                                                    .path);
-                                                            path2 = imageFile2!
-                                                                .path;
-                                                            print("path2" +
-                                                                path2!);
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Icon(
-                                                        Icons.upload,
-                                                      ),
-                                                    )))
+                                                    if (pickedFile != null) {
+                                                      setState(() {
+                                                        isUpload = true;
+                                                        imageFile2 = File(
+                                                            pickedFile.path);
+                                                        path2 =
+                                                            imageFile2!.path;
+                                                        print(
+                                                            "path2:" + path2!);
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Icon(Icons.upload),
+                                                ))
                                           ])),
                                   Container(
+                                      margin: EdgeInsets.only(top: 5.sp),
                                       height: 8.h,
                                       child: Row(
                                           // mainAxisSize: MainAxisSize.min,
@@ -743,16 +916,17 @@ class _ProjectReportState extends State<ProjectReport> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            if (imageFile3 == null &&
-                                                Image3 != "")
-                                              Expanded(
-                                                  child: Container(
-                                                      height: imgheight,
-                                                      width: imgwidth,
-                                                      child: Image.network(
-                                                          Constant.BASE_PATH +
-                                                              Image3!))),
-                                            if (Image3 == "" || Image3 == null)
+                                            if (image3 != null && image3 != "")
+                                              if (imageFile3 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        height: imgheight,
+                                                        width: imgwidth,
+                                                        child: Image.network(
+                                                            Constant.BASE_PATH +
+                                                                image3
+                                                                    .toString()))),
+                                            if (image3 == "" || image3 == null)
                                               if (imageFile3 == null)
                                                 Expanded(
                                                     child: Container(
@@ -766,48 +940,226 @@ class _ProjectReportState extends State<ProjectReport> {
                                                 child: Image.file(
                                                   imageFile3!,
                                                   width: imgwidth,
+                                                  height: 8.h,
                                                 ),
                                               )),
                                             Expanded(
                                                 child: Container(
                                                     child: Text("Image 3"))),
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 20.sp),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    // _getFromGallery();
+                                                    PickedFile? pickedFile =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                      source:
+                                                          ImageSource.gallery,
+                                                    );
+
+                                                    if (pickedFile != null) {
+                                                      setState(() {
+                                                        isUpload = true;
+                                                        imageFile3 = File(
+                                                            pickedFile.path);
+                                                        path3 =
+                                                            imageFile3!.path;
+                                                        print(
+                                                            "path3:" + path3!);
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Icon(Icons.upload),
+                                                ))
+                                          ])),
+                                  Container(
+                                      margin: EdgeInsets.only(top: 5.sp),
+                                      height: 8.h,
+                                      child: Row(
+                                          // mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            if (image4 != null && image4 != "")
+                                              if (imageFile4 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        height: imgheight,
+                                                        width: imgwidth,
+                                                        child: Image.network(
+                                                            Constant.BASE_PATH +
+                                                                image4
+                                                                    .toString()))),
+                                            if (image4 == "" || image4 == null)
+                                              if (imageFile4 == null)
+                                                Expanded(
+                                                    child: Container(
+                                                        child: SvgPicture.asset(
+                                                            'assets/images/Icon metro-image.svg'))),
+                                            if (imageFile4 != null)
+                                              Expanded(
+                                                  child: Container(
+                                                height: imgheight,
+                                                width: imgwidth,
+                                                child: Image.file(
+                                                  imageFile4!,
+                                                  width: imgwidth,
+                                                  height: 8.h,
+                                                ),
+                                              )),
                                             Expanded(
                                                 child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 20.sp),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        // _getFromGallery();
-                                                        PickedFile? pickedFile =
-                                                            await ImagePicker()
-                                                                .getImage(
-                                                          source: ImageSource
-                                                              .gallery,
-                                                        );
+                                                    child: Text("Image 4"))),
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 20.sp),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    // _getFromGallery();
+                                                    PickedFile? pickedFile =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                      source:
+                                                          ImageSource.gallery,
+                                                    );
 
-                                                        if (pickedFile !=
-                                                            null) {
-                                                          setState(() {
-                                                            isUpload = true;
-                                                            imageFile3 = File(
-                                                                pickedFile
-                                                                    .path);
-                                                            path3 = imageFile3!
-                                                                .path;
-                                                            print("path3" +
-                                                                path3!);
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Icon(
-                                                        Icons.upload,
-                                                      ),
-                                                    )))
+                                                    if (pickedFile != null) {
+                                                      setState(() {
+                                                        isUpload = true;
+                                                        imageFile4 = File(
+                                                            pickedFile.path);
+                                                        path4 =
+                                                            imageFile4!.path;
+                                                        print(
+                                                            "path4:" + path4!);
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Icon(Icons.upload),
+                                                ))
                                           ])),
                                 ])))
-                  ]))
+                  ])),
+          Container(
+              margin: EdgeInsets.only(top: 2.w, bottom: 5.w),
+              child: ElevatedButtonTheme(
+                data: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                      //primary: Color(0xffdd1a27),
+                      alignment: Alignment.center,
+                      onPrimary: Colors.white,
+                      backgroundColor:
+                          Constant.color_club_project_theme // foreground
+                      ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: 40.0.w,
+                        child: ElevatedButton(
+                          child: Text('Save'),
+                          onPressed: () {
+                            ReportApproveStatus = "Draft";
+
+                            saveData();
+                          },
+                        )),
+                    Container(
+                        width: 40.0.w,
+                        child: ElevatedButton(
+                          child: Text('Approve'),
+                          onPressed: () {
+                            ReportApproveStatus = "Publish";
+                            saveData();
+                          },
+                        )),
+                  ],
+                ),
+              )),
         ]));
+  }
+
+  saveData() async {
+    if (this._formKey.currentState!.validate()) {
+      String con = await Constant().checkConnectivity();
+      if (con != '') {
+        setState(() {
+          //isLoading = true;
+        });
+        if (imageFile1 == null && image1 != null) {
+          path1 = /*Constant.BASE_PATH +*/ image1.toString();
+        }
+
+        if (imageFile2 == null && image2 != null) {
+          path2 = /*Constant.BASE_PATH +*/ image2.toString();
+        }
+
+        if (imageFile3 == null && image3 != null) {
+          path3 = /* Constant.BASE_PATH +*/ image3.toString();
+        }
+
+        if (imageFile4 == null && image4 != null) {
+          path4 = /*Constant.BASE_PATH +*/ image4.toString();
+        }
+
+        ProjectRepoting_repo()
+            .postdata(
+                ProjectId,
+                _amount.toString(),
+                _workinghrs.toString(),
+                _partnerclub.toString(),
+                non_roatary_partner.toString(),
+                _beneficiary.toString(),
+                param1ClubMembersPresent.toString(),
+                param1AnnetPresent.toString(),
+                param1VisitingRotarians.toString(),
+                ReportApproveStatus.toString(),
+                path1,
+                path2,
+                path3,
+                path4,
+                isUpload)
+            /* MeetingRepoting_repo()
+            .postdata(
+            MeetingId,
+            _report.toString()!,
+            _attendance.toString()!,
+            _present.toString(),
+            _visitingRotarian.toString(),
+            path1.toString(),
+            path2.toString(),
+            path3.toString(),
+            path4.toString(),
+            ReportApproveStatus.toString(),
+            isUpload)*/
+            .then((result) {
+          if (result != null) {
+            setState(() {
+              print("msg:" + result.msg.toString());
+              Constant.displayToast("" + result.msg.toString());
+              Navigator.of(context).pop();
+            });
+          } else {
+            setState(() {
+              //isLoading = false;
+              Constant.displayToast("please enter valid credentials!");
+            });
+          }
+        });
+      }
+      //upload(File(imageFile));
+      else {
+        Constant.displayToast("Please check your internet connection..!");
+      }
+    } else {
+      print("_formKey.currentState is null!");
+    }
   }
 }
